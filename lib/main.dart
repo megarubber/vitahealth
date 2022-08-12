@@ -22,6 +22,7 @@ class LoginDemo extends StatefulWidget {
 
 class _LoginDemoState extends State<LoginDemo> {
   var countLoginTries = 0;
+  bool wrongMode = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class _LoginDemoState extends State<LoginDemo> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 90.0),
+              padding: const EdgeInsets.only(top: 60.0),
               child: Center(
                 child: Container(
                   width: 200,
@@ -48,9 +49,12 @@ class _LoginDemoState extends State<LoginDemo> {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
                 decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: wrongMode ? Colors.red : Colors.black)
+                  ),
                   border: OutlineInputBorder(),
                   labelText: 'E-mail',
-                  hintText: 'Entre com um e-mail válido! Ex: abc@gmail.com'
+                  hintText: 'abc@gmail.com'
                 ),
               ),
             ),
@@ -59,6 +63,9 @@ class _LoginDemoState extends State<LoginDemo> {
               child: TextField(
                 obscureText: true,
                 decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: wrongMode ? Colors.red : Colors.black)
+                  ),
                   border: OutlineInputBorder(),
                   labelText: 'Senha',
                   hintText: 'Entre com uma senha!'
@@ -75,10 +82,11 @@ class _LoginDemoState extends State<LoginDemo> {
               child: FlatButton(
                 onPressed:(){
                   if(countLoginTries <= 3) {
+                    setState(() { wrongMode = true; } );
                     Fluttertoast.showToast(
                         msg: "Usuário/Senha inválidos!",
                         toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
+                        gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,
                         backgroundColor: Colors.black,
                         textColor: Colors.white,
@@ -87,15 +95,16 @@ class _LoginDemoState extends State<LoginDemo> {
                     countLoginTries++;
                   }
                   else {
+                    setState(() { wrongMode = false; } );
                     Fluttertoast.showToast(
                         msg: "Login bloqueado: aguarde 30s!",
                         toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
+                        gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,
                         backgroundColor: Colors.black,
                         textColor: Colors.white,
                         fontSize: 16.0
-                    );                    
+                    );               
                   }
                 },
 
