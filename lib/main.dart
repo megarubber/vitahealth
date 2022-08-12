@@ -21,6 +21,8 @@ class LoginDemo extends StatefulWidget {
 }
 
 class _LoginDemoState extends State<LoginDemo> {
+  var countLoginTries = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +74,29 @@ class _LoginDemoState extends State<LoginDemo> {
               ),
               child: FlatButton(
                 onPressed:(){
-                  
+                  if(countLoginTries <= 3) {
+                    Fluttertoast.showToast(
+                        msg: "Usuário/Senha inválidos!",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                        fontSize: 16.0
+                    );
+                    countLoginTries++;
+                  }
+                  else {
+                    Fluttertoast.showToast(
+                        msg: "Login bloqueado: aguarde 30s!",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                        fontSize: 16.0
+                    );                    
+                  }
                 },
 
                 child: Text(
