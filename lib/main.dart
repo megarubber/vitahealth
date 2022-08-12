@@ -21,7 +21,7 @@ class LoginDemo extends StatefulWidget {
 }
 
 class _LoginDemoState extends State<LoginDemo> {
-  var countLoginTries = 0;
+  int countLoginTries = 0;
   bool wrongMode = false;
 
   @override
@@ -80,7 +80,7 @@ class _LoginDemoState extends State<LoginDemo> {
                 borderRadius: BorderRadius.circular(20)
               ),
               child: FlatButton(
-                onPressed:(){
+                onPressed: (){
                   if(countLoginTries <= 3) {
                     setState(() { wrongMode = true; } );
                     Fluttertoast.showToast(
@@ -95,7 +95,6 @@ class _LoginDemoState extends State<LoginDemo> {
                     countLoginTries++;
                   }
                   else {
-                    setState(() { wrongMode = false; } );
                     Fluttertoast.showToast(
                         msg: "Login bloqueado: aguarde 30s!",
                         toastLength: Toast.LENGTH_SHORT,
@@ -104,7 +103,11 @@ class _LoginDemoState extends State<LoginDemo> {
                         backgroundColor: Colors.black,
                         textColor: Colors.white,
                         fontSize: 16.0
-                    );               
+                    );    
+                    setState(() { 
+                      wrongMode = false; 
+                      null;
+                    } );           
                   }
                 },
 
@@ -123,9 +126,7 @@ class _LoginDemoState extends State<LoginDemo> {
                 borderRadius: BorderRadius.circular(20)
               ),
               child: FlatButton(
-                onPressed:(){
-                  
-                },
+                onPressed: null,
 
                 child: Text(
                   'Cadastre-se',
