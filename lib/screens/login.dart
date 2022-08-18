@@ -2,6 +2,7 @@ import 'package:vitahealth/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vitahealth/widgets/my_text_field.dart';
+import 'package:vitahealth/widgets/circle.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -11,26 +12,8 @@ class Login extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
-              width: 500.0,
-              height: 500.0,
-              decoration: new BoxDecoration(
-                color: ProjectColors().circleBackground,
-                shape: BoxShape.circle,
-              ),
-              transform: Matrix4.translationValues(
-              200.0, -200.0, 0.0),
-            ),
-            Container(
-              width: 500.0,
-              height: 500.0,
-              decoration: new BoxDecoration(
-                color: ProjectColors().circleBackground,
-                shape: BoxShape.circle,
-              ),
-              transform: Matrix4.translationValues(
-              200.0, -200.0, 0.0),
-            ),
+            Circle().createCircle(diameter: 500.0, x: 200.0, y: -200.0),
+            Circle().createCircle(diameter: 500.0, x: -200.0, y: 500.0),
             Column(
               children: [
                 SizedBox(height: 40.h),
