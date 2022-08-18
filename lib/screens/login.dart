@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vitahealth/widgets/my_text_field.dart';
 import 'package:vitahealth/widgets/circle.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:vitahealth/widgets/button.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -26,16 +28,31 @@ class Login extends StatelessWidget {
                   ),
                   Text(
                     "Fazer Login na VitaHealth",
-                    style: TextStyle(
-                      fontSize: 18.sp,
+                    style: GoogleFonts.poppins(
+                      fontSize: 15.sp,
                       color: ProjectColors().title
                     )
                   ),
                   SizedBox(height: 16.h),
                   SizedBox(
                     width: 330.w,
-                    child: MyTextField().createTextField(hint: 'Teste'),
-                  )
+                    child: MyTextField().createTextField(hint: 'E-mail'),
+                  ),
+                  SizedBox(height: 16.h),
+                  SizedBox(
+                    width: 330.w,
+                    child: MyTextField().createTextField(hint: 'Senha'),
+                  ),
+                  SizedBox(height: 20.h),
+                  SizedBox(
+                    width: 330.w,
+                    child: Button().createButton(message: 'Acessar')
+                  ),
+                  SizedBox(height: 20.h),
+                  SizedBox(
+                    width: 330.w,
+                    child: Button().createButton(message: 'Cadastre-se')
+                  )                  
                 ]
               )
             )
