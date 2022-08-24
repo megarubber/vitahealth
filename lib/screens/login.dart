@@ -6,7 +6,16 @@ import 'package:vitahealth/widgets/circle.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vitahealth/widgets/button.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  LoginState createState() => LoginState();
+}
+
+class LoginState extends State<Login> {
+
+  // Referencing Login Button
+  LoginButton login = new LoginButton();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +45,10 @@ class Login extends StatelessWidget {
                   SizedBox(height: 16.h),
                   SizedBox(
                     width: 330.w,
-                    child: MyTextField().createTextField(hint: 'E-mail'),
+                    child: MyTextField().createTextField(
+                      hint: 'E-mail', 
+                      mode: login.getCounter() > 0 ? 2 : 0
+                    ),
                   ),
                   SizedBox(height: 16.h),
                   SizedBox(
@@ -46,7 +58,7 @@ class Login extends StatelessWidget {
                   SizedBox(height: 20.h),
                   SizedBox(
                     width: 330.w,
-                    child: Button().createButton(message: 'Acessar')
+                    child: login.createButton(message: 'Acessar')
                   ),
                   SizedBox(height: 20.h),
                   SizedBox(
