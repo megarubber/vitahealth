@@ -8,4 +8,6 @@ class ProjectColors {
     final circleBackground = Color(0xffBDBDBD);
     final buttonBackground = Color(0xff00BCD4);
     final buttonText = Color(0xFFFFFFFF);
+    final appBarBackground = Color(0xFFFFFFFF);
+    final appBarForeground = Colors.black;
 }
