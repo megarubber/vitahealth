@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/widgets/my_toast.dart';
 import 'dart:async';
+import 'package:vitahealth/screens/register.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -51,8 +52,8 @@ class LoginState extends State<Login> {
       body: SafeArea(
         child: Stack(
           children: [
-            Circle().createCircle(diameter: 500.0, x: 200.0, y: -200.0),
-            Circle().createCircle(diameter: 500.0, x: -200.0, y: 500.0),
+            const Circle().createCircle(diameter: 500.0, x: 200.0, y: -200.0),
+            const Circle().createCircle(diameter: 500.0, x: -200.0, y: 500.0),
             Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,7 +98,17 @@ class LoginState extends State<Login> {
                   SizedBox(height: 20.h),
                   SizedBox(
                     width: 330.w,
-                    child: Button().createButton(message: 'Cadastre-se', action: () => setState(() => testLogin()))
+                    child: Button().createButton(
+                      message: 'Cadastre-se', 
+                      action: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Register()
+                          )
+                        );
+                      }
+                    )
                   )                  
                 ]
               )
