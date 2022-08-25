@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:vitahealth/colors.dart';
 
 class Circle {
+
+  const Circle();
+
   Widget createCircle({required double diameter, required double x, required double y}) {
     return Container(
       width: diameter,
