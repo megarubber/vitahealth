@@ -6,6 +6,7 @@ import 'package:vitahealth/widgets/circle.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/widgets/my_toast.dart';
+import 'dart:async';
 
 class Login extends StatefulWidget {
   @override
@@ -13,19 +14,34 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
+  // Constants
+  static const int maxTries = 3;
+  static const int waitAfterTries = 30;
 
   int loginButtonPressed = 0;
   
   void testLogin() {
     loginButtonPressed++;
-    if(loginButtonPressed < 3) MyToast().spawnToast(message: "Usuário/Senha inválidos!");
-    else MyToast().spawnToast(message: "Login bloqueado: aguarde 30s!");    
+    if(loginButtonPressed < maxTries) MyToast().spawnToast(message: "Usuário/Senha inválidos!");
+    else {
+      MyToast().spawnToast(message: "Login bloqueado: aguarde 30s!");
+      Timer(
+        const Duration(seconds: waitAfterTries),
+        () {
+          setState((){ loginButtonPressed = 0; });
+        }
+      );
+    }
   }
 
   int changeTextInputColor() {
-    if(loginButtonPressed > 0 && loginButtonPressed < 3) return 2;
-    else if(loginButtonPressed >= 3) return 1;
+    if(loginButtonPressed > 0 && loginButtonPressed < maxTries) return 2;
+    else if(loginButtonPressed >= maxTries) return 1;
     else return 0;
+  }
+
+  bool blockTextInput() {
+    return loginButtonPressed >= maxTries ? false : true;
   }
 
   @override
@@ -59,7 +75,8 @@ class LoginState extends State<Login> {
                     width: 330.w,
                     child: MyTextField().createTextField(
                       hint: 'E-mail', 
-                      colorMode: changeTextInputColor()
+                      colorMode: changeTextInputColor(),
+                      active: blockTextInput()
                     ),
                   ),
                   SizedBox(height: 16.h),
@@ -67,7 +84,9 @@ class LoginState extends State<Login> {
                     width: 330.w,
                     child: MyTextField().createTextField(
                       hint: 'Senha',
-                      colorMode: changeTextInputColor()
+                      colorMode: changeTextInputColor(),
+                      hide: true,
+                      active: blockTextInput()
                     ),
                   ),
                   SizedBox(height: 20.h),
