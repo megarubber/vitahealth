@@ -5,6 +5,7 @@ import 'package:vitahealth/widgets/my_text_field.dart';
 import 'package:vitahealth/widgets/circle.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vitahealth/widgets/button.dart';
+import 'package:vitahealth/widgets/my_toast.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -13,8 +14,19 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
 
-  // Referencing Login Button
-  LoginButton login = new LoginButton();
+  int loginButtonPressed = 0;
+  
+  void testLogin() {
+    loginButtonPressed++;
+    if(loginButtonPressed < 3) MyToast().spawnToast(message: "Usuário/Senha inválidos!");
+    else MyToast().spawnToast(message: "Login bloqueado: aguarde 30s!");    
+  }
+
+  int changeTextInputColor() {
+    if(loginButtonPressed > 0 && loginButtonPressed < 3) return 2;
+    else if(loginButtonPressed >= 3) return 1;
+    else return 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,23 +59,26 @@ class LoginState extends State<Login> {
                     width: 330.w,
                     child: MyTextField().createTextField(
                       hint: 'E-mail', 
-                      mode: login.getCounter() > 0 ? 2 : 0
+                      colorMode: changeTextInputColor()
                     ),
                   ),
                   SizedBox(height: 16.h),
                   SizedBox(
                     width: 330.w,
-                    child: MyTextField().createTextField(hint: 'Senha'),
+                    child: MyTextField().createTextField(
+                      hint: 'Senha',
+                      colorMode: changeTextInputColor()
+                    ),
                   ),
                   SizedBox(height: 20.h),
                   SizedBox(
                     width: 330.w,
-                    child: login.createButton(message: 'Acessar')
+                    child: Button().createButton(message: 'Acessar', action: () => setState(() => testLogin()))
                   ),
                   SizedBox(height: 20.h),
                   SizedBox(
                     width: 330.w,
-                    child: Button().createButton(message: 'Cadastre-se')
+                    child: Button().createButton(message: 'Cadastre-se', action: () => setState(() => testLogin()))
                   )                  
                 ]
               )
