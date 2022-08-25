@@ -17,7 +17,7 @@ class MyTextField {
     }
   }
 
-  Widget createTextField({required String hint, int mode = 0}) {
+  Widget createTextField({required String hint, int colorMode = 0}) {
     return TextField(
       decoration: InputDecoration(
         border: OutlineInputBorder(
@@ -31,7 +31,7 @@ class MyTextField {
         contentPadding:
             EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         filled: true,
-        fillColor: changeColor(mode),
+        fillColor: changeColor(colorMode),
         hintText: hint,
         hintStyle: GoogleFonts.poppins(
           fontSize: 14.sp,
