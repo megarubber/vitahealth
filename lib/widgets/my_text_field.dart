@@ -17,7 +17,7 @@ class MyTextField {
     }
   }
 
-  Widget createTextField({required String hint, int colorMode = 0}) {
+  Widget createTextField({required String hint, int colorMode = 0, bool hide = false, bool active = true}) {
     return TextField(
       decoration: InputDecoration(
         border: OutlineInputBorder(
@@ -36,8 +36,12 @@ class MyTextField {
         hintStyle: GoogleFonts.poppins(
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
-        )
+        ),
       ),
+      obscureText: hide,
+      enableSuggestions: !hide,
+      autocorrect: !hide,
+      enabled: active,
     );
   }
 }
