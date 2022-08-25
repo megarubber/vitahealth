@@ -10,4 +10,7 @@ class ProjectColors {
     final buttonText = Color(0xFFFFFFFF);
     final appBarBackground = Color(0xFFFFFFFF);
     final appBarForeground = Colors.black;
+    
+    // Backgrounds
+    final backgroundV1 = Color(0xffBDBDBD);
 }
