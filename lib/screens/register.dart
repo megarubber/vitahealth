@@ -24,6 +24,7 @@ class RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ProjectColors().backgroundV1,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
