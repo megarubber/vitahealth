@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:vitahealth/widgets/my_text_field.dart';
 import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/screens/login.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -97,7 +98,12 @@ class RegisterState extends State<Register> {
             Icons.arrow_back_ios,
           ),
           onPressed: () {
-            
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Login()
+              )
+            );            
           }
         ),
         title: Text("Cadastro de Usuários"),
