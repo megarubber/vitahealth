@@ -7,6 +7,7 @@ import 'package:vitahealth/colors.dart';
 import 'dart:io';
 import 'package:vitahealth/widgets/my_text_field.dart';
 import 'package:vitahealth/widgets/button.dart';
+import 'package:vitahealth/screens/login.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -22,6 +23,67 @@ class RegisterState extends State<Register> {
     if(image == null) return;
     final imageTemporary = File(image.path);
     setState(() => profileImage = imageTemporary);
+  }
+
+  void testForms(BuildContext context) {
+    // Turn off the focus from TextField
+    FocusNode? currentFocus = FocusScope.of(context).focusedChild;
+    if (currentFocus != null) currentFocus.unfocus();
+
+    // Start Alert
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Erro"),
+          content: new Text("Teste de erro"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Ok"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              }
+            )
+          ]
+        );
+      }
+    );
+  }
+
+  void returnToLogin(BuildContext context) {
+    // Turn off the focus from TextField
+    FocusNode? currentFocus = FocusScope.of(context).focusedChild;
+    if (currentFocus != null) currentFocus.unfocus();
+
+    // Start Alert
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Alerta"),
+          content: new Text("Você realmente deseja cancelar o cadastro?"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Sim"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login()
+                  )
+                );
+              }
+            ),
+            new FlatButton(
+              child: new Text("Não"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              }
+            )
+          ]
+        );
+      }
+    );
   }
 
   @override
@@ -100,7 +162,7 @@ class RegisterState extends State<Register> {
                     ),
                     SizedBox(
                       width: 270.w,
-                      child: MyTextField().createTextField(hint: "Telefone")
+                      child: MyTextField().createPhoneTextField(hint: "Telefone")
                     )
                   ]
                 ),
@@ -152,11 +214,11 @@ class RegisterState extends State<Register> {
                   children: [                
                     SizedBox(
                       width: 150.w,
-                      child: Button().createButton(message: 'Cancelar', action: () => print("test"))
+                      child: Button().createButton(message: 'Cancelar', action: () => returnToLogin(context))
                     ),
                     SizedBox(
                       width: 150.w,
-                      child: Button().createButton(message: 'Cadastrar', action: () => print("test"))
+                      child: Button().createButton(message: 'Cadastrar', action: () => testForms(context))
                     ),
                   ]
                 )
