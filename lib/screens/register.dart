@@ -15,10 +15,10 @@ class Register extends StatefulWidget {
 
 class RegisterState extends State<Register> {
   File? profileImage;
-  final spaceBetween = 15;
+  final int spaceBetween = 15;
 
   Future<void> pickImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final image = await ImagePicker().pickImage(source: ImageSource.camera);
     if(image == null) return;
     final imageTemporary = File(image.path);
     setState(() => profileImage = imageTemporary);
@@ -54,12 +54,13 @@ class RegisterState extends State<Register> {
                 InkWell(
                   onTap: () => pickImage(), 
                   child: Center(
-                    child: Image.asset(
-                      'assets/images/user_icon.png',
-                      width: 100.sp,
-                      height: 100.sp
-                    ),
-                  )
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(60),
+                      child: profileImage != null ? 
+                      Image.file(profileImage!, width: 100.sp, height: 100.sp, fit: BoxFit.cover) : 
+                      Image.asset('assets/images/user_icon.png', width: 100.sp, height: 100.sp)
+                    )
+                  ),
                 ),
                 SizedBox(height: spaceBetween.h),
                 Row(
