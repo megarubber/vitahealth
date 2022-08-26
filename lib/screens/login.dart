@@ -49,71 +49,74 @@ class LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Stack(
-          children: [
-            const Circle().createCircle(diameter: 500.0, x: 200.0, y: -200.0),
-            const Circle().createCircle(diameter: 500.0, x: -200.0, y: 500.0),
-            Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 40.h),
-                  Container(
-                    width: 200.sp,
-                    height: 150.sp,
-                    child: Image.asset('assets/images/logo_RGB.png'),
-                  ),
-                  Text(
-                    "Fazer Login na VitaHealth",
-                    style: GoogleFonts.poppins(
-                      fontSize: 15.sp,
-                      color: ProjectColors().title
-                    )
-                  ),
-                  SizedBox(height: 16.h),
-                  SizedBox(
-                    width: 330.w,
-                    child: MyTextField().createTextField(
-                      hint: 'E-mail', 
-                      colorMode: changeTextInputColor(),
-                      active: blockTextInput()
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              const Circle().createCircle(diameter: 500.0, x: 200.0, y: -200.0),
+              const Circle().createCircle(diameter: 500.0, x: -200.0, y: 500.0),
+              Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 40.h),
+                    Container(
+                      width: 200.sp,
+                      height: 150.sp,
+                      child: Image.asset('assets/images/logo_RGB.png'),
                     ),
-                  ),
-                  SizedBox(height: 16.h),
-                  SizedBox(
-                    width: 330.w,
-                    child: MyTextField().createTextField(
-                      hint: 'Senha',
-                      colorMode: changeTextInputColor(),
-                      hide: true,
-                      active: blockTextInput()
+                    Text(
+                      "Fazer Login na VitaHealth",
+                      style: GoogleFonts.poppins(
+                        fontSize: 15.sp,
+                        color: ProjectColors().title
+                      )
                     ),
-                  ),
-                  SizedBox(height: 20.h),
-                  SizedBox(
-                    width: 330.w,
-                    child: Button().createButton(message: 'Acessar', action: () => setState(() => testLogin()))
-                  ),
-                  SizedBox(height: 20.h),
-                  SizedBox(
-                    width: 330.w,
-                    child: Button().createButton(
-                      message: 'Cadastre-se', 
-                      action: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Register()
-                          )
-                        );
-                      }
-                    )
-                  )                  
-                ]
+                    SizedBox(height: 16.h),
+                    SizedBox(
+                      width: 330.w,
+                      child: MyTextField().createTextField(
+                        hint: 'E-mail', 
+                        colorMode: changeTextInputColor(),
+                        active: blockTextInput()
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    SizedBox(
+                      width: 330.w,
+                      child: MyTextField().createTextField(
+                        hint: 'Senha',
+                        colorMode: changeTextInputColor(),
+                        hide: true,
+                        active: blockTextInput()
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    SizedBox(
+                      width: 330.w,
+                      child: Button().createButton(message: 'Acessar', action: () => setState(() => testLogin()))
+                    ),
+                    SizedBox(height: 20.h),
+                    SizedBox(
+                      width: 330.w,
+                      child: Button().createButton(
+                        message: 'Cadastre-se', 
+                        action: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Register()
+                            )
+                          );
+                        }
+                      )
+                    )                  
+                  ]
+                )
               )
-            )
-          ]
+            ]
+          )
         )
       )
     );
