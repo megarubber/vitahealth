@@ -20,8 +20,8 @@ class MyTextField {
     }
   }
 
-  Widget createTextField({required String hint, int colorMode = 0, bool hide = false, bool active = true}) {
-    return TextField(
+  Widget createTextField({required String hint, String exp = "[A-Za-z\s]+", int colorMode = 0, bool hide = false, bool active = true, required String validatorText}) {
+    return TextFormField(
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
@@ -41,10 +41,16 @@ class MyTextField {
           fontWeight: FontWeight.w400,
         ),
       ),
+      //autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: hide,
       enableSuggestions: !hide,
       autocorrect: !hide,
       enabled: active,
+      validator: (text) {
+        final regex = RegExp(exp);
+        if(!regex.hasMatch(text ?? '')) return validatorText;
+        return null;
+      }
     );
   }
 

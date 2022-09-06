@@ -79,7 +79,8 @@ class LoginState extends State<Login> {
                       child: MyTextField().createTextField(
                         hint: 'E-mail', 
                         colorMode: changeTextInputColor(),
-                        active: blockTextInput()
+                        active: blockTextInput(),
+                        validatorText: "E-mail inválido!"
                       ),
                     ),
                     SizedBox(height: 16.h),
@@ -89,7 +90,8 @@ class LoginState extends State<Login> {
                         hint: 'Senha',
                         colorMode: changeTextInputColor(),
                         hide: true,
-                        active: blockTextInput()
+                        active: blockTextInput(),
+                        validatorText: "Senha inválida!"
                       ),
                     ),
                     SizedBox(height: 20.h),
