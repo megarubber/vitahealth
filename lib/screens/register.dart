@@ -160,7 +160,11 @@ class RegisterState extends State<Register> {
                       ),
                       SizedBox(
                         width: 270.w,
-                        child: MyTextField().createTextField(hint: "Email", validatorText: "Email inválido!")
+                        child: MyTextField().createTextField(
+                          hint: "E-mail",
+                          validatorText: "E-mail inválido!",
+                          exp: "[a-z]{1}"
+                        )
                       )
                     ]
                   ),
