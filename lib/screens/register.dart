@@ -36,11 +36,11 @@ class RegisterState extends State<Register> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Erro"),
-          content: new Text("Teste de erro"),
+          title: Text("Erro"),
+          content: Text("Teste de erro"),
           actions: <Widget>[
-            new FlatButton(
-              child: new Text("Ok"),
+            TextButton(
+              child: Text("Ok"),
               onPressed: () {
                 Navigator.of(context).pop();
               }
@@ -61,11 +61,11 @@ class RegisterState extends State<Register> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Alerta"),
-          content: new Text("Você realmente deseja cancelar o cadastro?"),
+          title: Text("Alerta"),
+          content: Text("Você realmente deseja cancelar o cadastro?"),
           actions: <Widget>[
-            new FlatButton(
-              child: new Text("Sim"),
+            TextButton(
+              child: Text("Sim"),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -75,8 +75,8 @@ class RegisterState extends State<Register> {
                 );
               }
             ),
-            new FlatButton(
-              child: new Text("Não"),
+            TextButton(
+              child: Text("Não"),
               onPressed: () {
                 Navigator.of(context).pop();
               }
