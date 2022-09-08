@@ -8,6 +8,28 @@ import 'package:intl/intl.dart';
 class MyTextField {
   final phoneFormatter = MaskTextInputFormatter(mask: '(##) #####-####');
 
+  InputDecoration defaultDecoration({required int colorMode, required String hint}) {
+    return InputDecoration(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.r),
+        borderSide: BorderSide(color: Colors.transparent, width: 0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.r),
+        borderSide: BorderSide(color: Colors.transparent, width: 0),
+      ),
+      contentPadding:
+          EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+      filled: true,
+      fillColor: changeColor(colorMode),
+      hintText: hint,
+      hintStyle: GoogleFonts.poppins(
+        fontSize: 14.sp,
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+
   Color changeColor([int mode = 0]) {
     switch(mode) {
       case 0:
@@ -23,25 +45,7 @@ class MyTextField {
 
   Widget createTextField({required String hint, String exp = "[A-Za-z\s]+", int colorMode = 0, bool hide = false, bool active = true, required String validatorText}) {
     return TextFormField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.transparent, width: 0),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.transparent, width: 0),
-        ),
-        contentPadding:
-            EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        filled: true,
-        fillColor: changeColor(colorMode),
-        hintText: hint,
-        hintStyle: GoogleFonts.poppins(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
+      decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       //autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: hide,
       enableSuggestions: !hide,
@@ -57,25 +61,7 @@ class MyTextField {
 
   Widget createPhoneTextField({required String hint, int colorMode = 0, bool hide = false, bool active = true}) {
     return TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.transparent, width: 0),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.transparent, width: 0),
-        ),
-        contentPadding:
-            EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        filled: true,
-        fillColor: changeColor(colorMode),
-        hintText: hint,
-        hintStyle: GoogleFonts.poppins(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
+      decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       obscureText: hide,
       enableSuggestions: !hide,
       autocorrect: !hide,
@@ -88,25 +74,7 @@ class MyTextField {
   Widget createDateInput({required TextEditingController dateinput, required BuildContext myContext, required String hint, int colorMode = 0}) {
     return TextField(
       controller: dateinput,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.transparent, width: 0),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.transparent, width: 0),
-        ),
-        contentPadding:
-            EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        filled: true,
-        fillColor: changeColor(colorMode),
-        hintText: hint,
-        hintStyle: GoogleFonts.poppins(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
+      decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       readOnly: true,
       onTap: () async {
         DateTime? pickedDate = await showDatePicker(
@@ -127,25 +95,7 @@ class MyTextField {
 
   Widget createNumberField({required String hint, int colorMode = 0}) {
     return TextFormField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.transparent, width: 0),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.transparent, width: 0),
-        ),
-        contentPadding:
-            EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        filled: true,
-        fillColor: changeColor(colorMode),
-        hintText: hint,
-        hintStyle: GoogleFonts.poppins(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
+      decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       keyboardType: TextInputType.number,
     );
   }
