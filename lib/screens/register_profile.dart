@@ -3,8 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vitahealth/colors.dart';
 import 'package:vitahealth/widgets/my_text_field.dart';
+import 'package:intl/intl.dart';
 
 class RegisterProfile extends StatelessWidget {
+  TextEditingController dateinput = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,6 +17,7 @@ class RegisterProfile extends StatelessWidget {
           child: Center(
             child: Column(
               children: <Widget>[
+                SizedBox(height: 20.h),
                 Text(
                   'Olá, Usuário!',
                   style: GoogleFonts.poppins(
@@ -39,6 +43,15 @@ class RegisterProfile extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center
                 ),
+                SizedBox(height: 20.h),
+                MyTextField().createDateInput(
+                  dateinput: dateinput,
+                  myContext: context,
+                  hint: 'Data de nascimento',
+                ),
+                MyTextField().createNumberField(
+                  hint: 'Peso'
+                )
               ]
             )
           )
