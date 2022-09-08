@@ -3,16 +3,44 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vitahealth/colors.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  HomeState createState() => HomeState();
+}
+
+class HomeState extends State<Home> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.format_list_bulleted
+          ),
+          onPressed: () => _key.currentState!.openDrawer()
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.workspaces,
+              color: ProjectColors().appBarForeground
+            ),
+            onPressed: () => null
+          )
+        ],
+        backgroundColor: ProjectColors().appBarBackground,
+        foregroundColor: ProjectColors().appBarForeground,
+        elevation: 0
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              SizedBox(height: 5.h),
               Container(
                 width: 200.sp,
                 height: 150.sp,
@@ -30,7 +58,8 @@ class Home extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 15.sp,
                   color: ProjectColors().title
-                )
+                ),
+                textAlign: TextAlign.center,
               )
             ]
           )
