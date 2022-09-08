@@ -14,6 +14,7 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _key,
+      backgroundColor: ProjectColors().backgroundV1,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
@@ -40,7 +41,6 @@ class HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: 5.h),
               Container(
                 width: 200.sp,
                 height: 150.sp,
@@ -56,7 +56,7 @@ class HomeState extends State<Home> {
                 "aqueles com restrições de visão, daltonismo, dificuldades auditivas, comprometimento " 
                 "da coordenação motora, deficiências cognitivas e muitas outras deficiências.",
                 style: GoogleFonts.poppins(
-                  fontSize: 15.sp,
+                  fontSize: 14.sp,
                   color: ProjectColors().title
                 ),
                 textAlign: TextAlign.center,
@@ -76,9 +76,31 @@ class MyDrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        children: const [
-          DrawerHeader(
-            child: Icon(Icons.flutter_dash, size: 35)
+        children: <Widget>[
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Home'),
+            //onTap() => null
+          ),
+          ListTile(
+            leading: const Icon(Icons.directions_run),
+            title: const Text('Exercícios'),
+            //onTap() => null
+          ),
+          ListTile(
+            leading: const Icon(Icons.currency_bitcoin),
+            title: const Text('WS Coins'),
+            //onTap() => null
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Configurações'),
+            //onTap() => null
+          ),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Sair'),
+            //onTap() => null
           )
         ]
       )
