@@ -21,7 +21,7 @@ class RegisterProfile extends StatelessWidget {
                 Text(
                   'Olá, Usuário!',
                   style: GoogleFonts.poppins(
-                    fontSize: 25.sp,
+                    fontSize: 18.sp,
                     color: ProjectColors().title
                   )
                 ),
@@ -29,7 +29,7 @@ class RegisterProfile extends StatelessWidget {
                 Text(
                   'Seja Bem Vindo!',
                   style: GoogleFonts.poppins(
-                    fontSize: 25.sp,
+                    fontSize: 20.sp,
                     color: ProjectColors().title
                   )
                 ),
@@ -49,8 +49,21 @@ class RegisterProfile extends StatelessWidget {
                   myContext: context,
                   hint: 'Data de nascimento',
                 ),
-                MyTextField().createNumberField(
-                  hint: 'Peso'
+                SizedBox(height: 15.h),
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 160.w,
+                      child: MyTextField().createNumberField(hint: 'Peso')
+                    ),
+                    SizedBox(
+                      width: 10.w
+                    ),
+                    SizedBox(
+                      width: 160.w,
+                      child: MyTextField().createNumberField(hint: 'Altura')
+                    ),
+                  ]
                 )
               ]
             )
