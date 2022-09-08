@@ -39,6 +39,7 @@ dependencies:
   image_picker: ^0.8.5+3
   mask_text_input_formatter: ^2.4.0
   path_provider: ^2.0.11
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
