@@ -7,6 +7,11 @@ import 'package:intl/intl.dart';
 
 class MyTextField {
   final phoneFormatter = MaskTextInputFormatter(mask: '(##) #####-####');
+  Function(String value)? changedValue;
+
+  MyTextField({
+    this.changedValue
+  });
 
   InputDecoration defaultDecoration({required int colorMode, required String hint}) {
     return InputDecoration(
@@ -97,6 +102,7 @@ class MyTextField {
     return TextFormField(
       decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       keyboardType: TextInputType.number,
+      onChanged: changedValue
     );
   }
 }
