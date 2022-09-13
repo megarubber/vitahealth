@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 class MyTextField {
   final phoneFormatter = MaskTextInputFormatter(mask: '(##) #####-####');
-  Function(String value)? changedValue;
+  void Function(String value)? changedValue;
 
   MyTextField({
     this.changedValue
@@ -76,9 +76,9 @@ class MyTextField {
     );
   }
 
-  Widget createDateInput({required TextEditingController dateinput, required BuildContext myContext, required String hint, int colorMode = 0}) {
+  Widget createdateInput({required TextEditingController dateInput, required BuildContext myContext, required String hint, int colorMode = 0}) {
     return TextField(
-      controller: dateinput,
+      controller: dateInput,
       decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       readOnly: true,
       onTap: () async {
@@ -92,17 +92,18 @@ class MyTextField {
           //print(pickedDate);
           String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
           //print(formattedDate);
-          dateinput.text = formattedDate;
-        } else dateinput.text = "";
+          dateInput.text = formattedDate;
+        } else dateInput.text = "";
       }      
     );
   }
 
-  Widget createNumberField({required String hint, int colorMode = 0}) {
+  Widget createNumberField({required String hint, int colorMode = 0, TextEditingController? inputValue}) {
     return TextFormField(
       decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       keyboardType: TextInputType.number,
-      onChanged: changedValue
+      onChanged: (String value) => changedValue!(value),
+      controller: inputValue
     );
   }
 }
