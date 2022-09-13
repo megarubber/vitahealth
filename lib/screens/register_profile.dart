@@ -11,13 +11,24 @@ class RegisterProfile extends StatefulWidget {
 }
 
 class RegisterProfileStatus extends State<RegisterProfile> {
-  TextEditingController dateinput = TextEditingController();
-
+  
+  // Pick the value from TextFields
+  TextEditingController dateInput = TextEditingController();
+  TextEditingController massInput = TextEditingController();
+  TextEditingController heightInput = TextEditingController();
+  
   String bmiStatus = 'Coloque seus dados para calcular seu IMC!';
+  
+  double globalMass = 0;
+  double globalHeight = 0;
 
-  void updateBMIStatus(double height, double mass) {
+  void updateBMIStatus([double mass = 10, double height = 10]) {
+    globalMass = mass;
+    globalHeight = height;
+
     double result = (mass/(height * height));
-    
+    print(height * height);
+
     String baseMsg = 'Seu IMC é de: ' + result.toString();
 
     if(result < 18.5)
@@ -31,7 +42,10 @@ class RegisterProfileStatus extends State<RegisterProfile> {
     else
       baseMsg += ', o que indica OBESIDADE GRAVE!';
     
-    bmiStatus = baseMsg;
+    setState(() {
+      if(globalMass > 0 && globalHeight > 0)
+        bmiStatus = baseMsg;
+    });
   }
 
   @override
@@ -70,8 +84,8 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                   textAlign: TextAlign.center
                 ),
                 SizedBox(height: 20.h),
-                MyTextField().createDateInput(
-                  dateinput: dateinput,
+                MyTextField().createdateInput(
+                  dateInput: dateInput,
                   myContext: context,
                   hint: 'Data de nascimento',
                 ),
@@ -80,14 +94,22 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                   children: <Widget>[
                     SizedBox(
                       width: 160.w,
-                      child: MyTextField(changedValue: setState() => updateBMIStatus(10.0, 10.0)).createNumberField(hint: 'Peso (kg)')
+                      child: MyTextField(
+                        changedValue: (String value) {
+                          updateBMIStatus(double.parse(massInput.text), globalHeight);
+                        }
+                      ).createNumberField(hint: 'Peso (kg)', inputValue: massInput)
                     ),
                     SizedBox(
                       width: 10.w
                     ),
                     SizedBox(
                       width: 160.w,
-                      child: MyTextField(changedValue: setState() => updateBMIStatus(10.0, 10.0)).createNumberField(hint: 'Altura (m)')
+                      child: MyTextField(
+                        changedValue: (String value) { 
+                          updateBMIStatus(globalMass, double.parse(heightInput.text));
+                        }
+                      ).createNumberField(hint: 'Altura (m)', inputValue: heightInput)
                     ),
                   ]
                 ),
@@ -95,7 +117,7 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                 Text(
                   bmiStatus,
                   style: GoogleFonts.poppins(
-                    fontSize: 15.sp,
+                    fontSize: 12.sp,
                     color: ProjectColors().title
                   ),
                   textAlign: TextAlign.center
