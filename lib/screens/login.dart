@@ -26,12 +26,14 @@ class LoginState extends State<Login> {
     if(loginButtonPressed < maxTries) MyToast().spawnToast(message: "Usuário/Senha inválidos!");
     else {
       MyToast().spawnToast(message: "Login bloqueado: aguarde 30s!");
-      Timer(
-        const Duration(seconds: waitAfterTries),
-        () {
-          setState((){ loginButtonPressed = 0; });
-        }
-      );
+      if(loginButtonPressed == maxTries) {
+        Timer(
+          const Duration(seconds: waitAfterTries),
+          () {
+            setState((){ loginButtonPressed = 0; });
+          }
+        );
+      }
     }
   }
 
@@ -42,6 +44,7 @@ class LoginState extends State<Login> {
   }
 
   bool blockTextInput() {
+    setState(() {});
     return loginButtonPressed >= maxTries ? false : true;
   }
 
@@ -104,14 +107,15 @@ class LoginState extends State<Login> {
                       width: 330.w,
                       child: Button().createButton(
                         message: 'Cadastre-se', 
-                        action: () {
+                        action: () { 
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => Register()
                             )
                           );
-                        }
+                        },
+                        enableButton: blockTextInput()
                       )
                     )                  
                   ]
