@@ -31,6 +31,10 @@ class MyTextField {
         fontSize: 14.sp,
         fontWeight: FontWeight.w400,
       ),
+      errorStyle: GoogleFonts.poppins(
+        fontSize: 10.sp,
+        fontWeight: FontWeight.w400
+      )
     );
   }
 
