@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:vitahealth/screens/register_profile.dart';
+import 'package:vitahealth/screens/register.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 640),
       builder: (context, child) {
         return MaterialApp(
-          home: RegisterProfile(),
+          home: Register(),
           debugShowCheckedModeBanner: false,
         );
       },
