@@ -6,7 +6,6 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:intl/intl.dart';
 
 class MyTextField {
-  final phoneFormatter = MaskTextInputFormatter(mask: '(##) #####-####');
   void Function(String value)? changedValue;
 
   MyTextField({
@@ -48,7 +47,11 @@ class MyTextField {
     }
   }
 
-  Widget createTextField({required String hint, String exp = "[A-Za-z\s]+", int colorMode = 0, bool hide = false, bool active = true, required String validatorText}) {
+  Widget createTextField({required String hint, String exp = r'^[A-Za-z\s]+$', 
+  int colorMode = 0, bool hide = false, bool active = true, 
+  required String validatorText,
+  TextInputType keyboard = TextInputType.text,
+  String? formatter}) {
     return TextFormField(
       decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       //autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -60,19 +63,9 @@ class MyTextField {
         final regex = RegExp(exp);
         if(!regex.hasMatch(text ?? '')) return validatorText;
         return null;
-      }
-    );
-  }
-
-  Widget createPhoneTextField({required String hint, int colorMode = 0, bool hide = false, bool active = true}) {
-    return TextField(
-      decoration: defaultDecoration(colorMode: colorMode, hint: hint),
-      obscureText: hide,
-      enableSuggestions: !hide,
-      autocorrect: !hide,
-      enabled: active,
-      keyboardType: TextInputType.number,
-      inputFormatters: [phoneFormatter]
+      },
+      keyboardType: keyboard,
+      inputFormatters: [MaskTextInputFormatter(mask: formatter)]
     );
   }
 
