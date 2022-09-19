@@ -107,7 +107,7 @@ class RegisterState extends State<Register> {
             );            
           }
         ),
-        title: Text("Cadastro de Usuários"),
+        title: Text("Cadastro de Usuário"),
         backgroundColor: ProjectColors().appBarBackground,
         foregroundColor: ProjectColors().appBarForeground,
         elevation: 0
@@ -145,7 +145,8 @@ class RegisterState extends State<Register> {
                         width: 270.w,
                         child: MyTextField().createTextField(
                           hint: "Nome e Sobrenome", 
-                          validatorText: "Nome e Sobrenomes inválidos!"
+                          validatorText: "Nome e Sobrenome inválidos!",
+                          exp: r'^\w[A-Za-záàâãéèêíïóôõöúçñ]{2,}\s\w[A-Za-záàâãéèêíïóôõöúçñ]{2,}$',
                         )
                       )
                     ]
@@ -163,7 +164,8 @@ class RegisterState extends State<Register> {
                         child: MyTextField().createTextField(
                           hint: "E-mail",
                           validatorText: "E-mail inválido!",
-                          exp: "[a-z]{1}"
+                          exp: r'^[a-z]{1}[A-Za-z0-9_.]{6,}@[a-z]{3,}\.com(\.br)?$',
+                          keyboard: TextInputType.emailAddress
                         )
                       )
                     ]
@@ -178,7 +180,13 @@ class RegisterState extends State<Register> {
                       ),
                       SizedBox(
                         width: 270.w,
-                        child: MyTextField().createPhoneTextField(hint: "Telefone")
+                        child: MyTextField().createTextField(
+                          hint: "Telefone",
+                          validatorText: 'Telefone Inválido!',
+                          keyboard: TextInputType.phone,
+                          exp: r'^\(\d{2}\)\s\d{5}-\d{4}$',
+                          formatter: '(##) #####-####'
+                        )
                       )
                     ]
                   ),
@@ -192,7 +200,11 @@ class RegisterState extends State<Register> {
                       ),
                       SizedBox(
                         width: 270.w,
-                        child: MyTextField().createTextField(hint: "Nome de usuário", validatorText: "Nome de usuário inválido!")
+                        child: MyTextField().createTextField(
+                          hint: "Nome de usuário", 
+                          validatorText: "Nome de usuário inválido!",
+                          exp: r'^[a-z_.]{1}[a-z0-9_.]{5,}$'
+                        )
                       )
                     ]
                   ),
@@ -206,7 +218,12 @@ class RegisterState extends State<Register> {
                       ),
                       SizedBox(
                         width: 270.w,
-                        child: MyTextField().createTextField(hint: "Senha", hide: true, validatorText: "Senha inválida!")
+                        child: MyTextField().createTextField(
+                          hint: "Senha", 
+                          hide: true, 
+                          validatorText: "Senha inválida!",
+                          exp: r'^(?=.*\d.*\d)(?=.*[a-z])(?=.*[A-Z]).[A-Za-z0-9_.]{8,}$'
+                        )
                       )
                     ]
                   ),
@@ -220,7 +237,11 @@ class RegisterState extends State<Register> {
                       ),
                       SizedBox(
                         width: 270.w,
-                        child: MyTextField().createTextField(hint: "Confirme a senha", hide: true, validatorText: "A senha precisa ser a mesma.")
+                        child: MyTextField().createTextField(
+                          hint: "Confirme a senha", 
+                          hide: true, 
+                          validatorText: "As senhas precisam ser iguais"
+                        )
                       )
                     ]
                   ),
