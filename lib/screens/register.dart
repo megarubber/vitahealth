@@ -10,6 +10,165 @@ import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/screens/login.dart';
 import 'package:path_provider/path_provider.dart';
 
+final int spaceBetween = 15;
+
+class PageOne extends StatelessWidget {
+  PageOne({
+    Key? key
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        SizedBox(height: spaceBetween.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(
+              Icons.account_circle_rounded,
+              size: 50.sp,
+            ),
+            SizedBox(
+              width: 270.w,
+              child: MyTextField().createTextField(
+                hint: "Nome e Sobrenome", 
+                validatorText: "Nome e Sobrenome inválidos!",
+                exp: r'^\w[A-Za-záàâãéèêíïóôõöúçñ]{2,}\s\w[A-Za-záàâãéèêíïóôõöúçñ]{2,}$',
+              )
+            )
+          ]
+        ),
+        SizedBox(height: spaceBetween.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(
+              Icons.email,
+              size: 50.sp,
+            ),
+            SizedBox(
+              width: 270.w,
+              child: MyTextField().createTextField(
+                hint: "E-mail",
+                validatorText: "E-mail inválido!",
+                exp: r'^[a-z]{1}[A-Za-z0-9_.]{6,}@[a-z]{3,}\.com(\.br)?$',
+                keyboard: TextInputType.emailAddress
+              )
+            )
+          ]
+        ),
+        SizedBox(height: spaceBetween.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(
+              Icons.local_phone_rounded,
+              size: 50.sp,
+            ),
+            SizedBox(
+              width: 270.w,
+              child: MyTextField().createTextField(
+                hint: "Telefone",
+                validatorText: 'Telefone Inválido!',
+                keyboard: TextInputType.phone,
+                exp: r'^\(\d{2}\)\s\d{5}-\d{4}$',
+                formatter: '(##) #####-####'
+              )
+            )
+          ]
+        ),
+      ]
+    );
+  }
+}
+
+class PageTwo extends StatelessWidget {
+  PageTwo({
+    Key? key
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(
+              Icons.star,
+              size: 50.sp,
+            ),
+            SizedBox(
+              width: 270.w,
+              child: MyTextField().createTextField(
+                hint: "Nome de usuário", 
+                validatorText: "Nome de usuário inválido!",
+                exp: r'^[a-z_.]{1}[a-z0-9_.]{5,}$'
+              )
+            )
+          ]
+        ),
+        SizedBox(height: spaceBetween.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(
+              Icons.key,
+              size: 50.sp,
+            ),
+            SizedBox(
+              width: 270.w,
+              child: MyTextField().createTextField(
+                hint: "Senha", 
+                hide: true, 
+                validatorText: "Senha inválida!",
+                exp: r'^(?=.*\d.*\d)(?=.*[a-z])(?=.*[A-Z]).[A-Za-z0-9_.]{8,}$'
+              )
+            )
+          ]
+        ),
+        SizedBox(height: spaceBetween.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(
+              Icons.lock,
+              size: 50.sp,
+            ),
+            SizedBox(
+              width: 270.w,
+              child: MyTextField().createTextField(
+                hint: "Confirme a senha", 
+                hide: true, 
+                validatorText: "As senhas precisam ser iguais"
+              )
+            )
+          ]
+        ),
+        SizedBox(height: spaceBetween.h),
+        /*
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [                
+            SizedBox(
+              width: 150.w,
+              child: Button().createButton(message: 'Cancelar', action: () => returnToLogin(context))
+            ),
+            SizedBox(
+              width: 150.w,
+              child: Button().createButton(message: 'Cadastrar', action: () => formKey.currentState!.validate())
+            ),
+          ]
+        )
+        */
+      ]
+    );
+  }
+}
+
 class Register extends StatefulWidget {
   @override
   RegisterState createState() => RegisterState();
@@ -17,7 +176,6 @@ class Register extends StatefulWidget {
 
 class RegisterState extends State<Register> {
   File? profileImage;
-  final int spaceBetween = 15;
   final formKey = GlobalKey<FormState>();
 
   Future<void> pickImage() async {
@@ -133,133 +291,8 @@ class RegisterState extends State<Register> {
                       )
                     ),
                   ),
-                  SizedBox(height: spaceBetween.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.account_circle_rounded,
-                        size: 50.sp,
-                      ),
-                      SizedBox(
-                        width: 270.w,
-                        child: MyTextField().createTextField(
-                          hint: "Nome e Sobrenome", 
-                          validatorText: "Nome e Sobrenome inválidos!",
-                          exp: r'^\w[A-Za-záàâãéèêíïóôõöúçñ]{2,}\s\w[A-Za-záàâãéèêíïóôõöúçñ]{2,}$',
-                        )
-                      )
-                    ]
-                  ),
-                  SizedBox(height: spaceBetween.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.email,
-                        size: 50.sp,
-                      ),
-                      SizedBox(
-                        width: 270.w,
-                        child: MyTextField().createTextField(
-                          hint: "E-mail",
-                          validatorText: "E-mail inválido!",
-                          exp: r'^[a-z]{1}[A-Za-z0-9_.]{6,}@[a-z]{3,}\.com(\.br)?$',
-                          keyboard: TextInputType.emailAddress
-                        )
-                      )
-                    ]
-                  ),
-                  SizedBox(height: spaceBetween.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.local_phone_rounded,
-                        size: 50.sp,
-                      ),
-                      SizedBox(
-                        width: 270.w,
-                        child: MyTextField().createTextField(
-                          hint: "Telefone",
-                          validatorText: 'Telefone Inválido!',
-                          keyboard: TextInputType.phone,
-                          exp: r'^\(\d{2}\)\s\d{5}-\d{4}$',
-                          formatter: '(##) #####-####'
-                        )
-                      )
-                    ]
-                  ),
-                  SizedBox(height: spaceBetween.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.star,
-                        size: 50.sp,
-                      ),
-                      SizedBox(
-                        width: 270.w,
-                        child: MyTextField().createTextField(
-                          hint: "Nome de usuário", 
-                          validatorText: "Nome de usuário inválido!",
-                          exp: r'^[a-z_.]{1}[a-z0-9_.]{5,}$'
-                        )
-                      )
-                    ]
-                  ),
-                  SizedBox(height: spaceBetween.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.key,
-                        size: 50.sp,
-                      ),
-                      SizedBox(
-                        width: 270.w,
-                        child: MyTextField().createTextField(
-                          hint: "Senha", 
-                          hide: true, 
-                          validatorText: "Senha inválida!",
-                          exp: r'^(?=.*\d.*\d)(?=.*[a-z])(?=.*[A-Z]).[A-Za-z0-9_.]{8,}$'
-                        )
-                      )
-                    ]
-                  ),
-                  SizedBox(height: spaceBetween.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.lock,
-                        size: 50.sp,
-                      ),
-                      SizedBox(
-                        width: 270.w,
-                        child: MyTextField().createTextField(
-                          hint: "Confirme a senha", 
-                          hide: true, 
-                          validatorText: "As senhas precisam ser iguais"
-                        )
-                      )
-                    ]
-                  ),
-                  SizedBox(height: spaceBetween.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [                
-                      SizedBox(
-                        width: 150.w,
-                        child: Button().createButton(message: 'Cancelar', action: () => returnToLogin(context))
-                      ),
-                      SizedBox(
-                        width: 150.w,
-                        child: Button().createButton(message: 'Cadastrar', action: () => formKey.currentState!.validate())
-                      ),
-                    ]
-                  )
-                ]
+                 SizedBox(height: spaceBetween.h),
+               ]
               )
             )
           )
