@@ -10,6 +10,33 @@ import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/screens/login.dart';
 import 'package:path_provider/path_provider.dart';
 
+class User {
+  final String name;
+  final String email;
+  final String phone;
+  final String username;
+  final String password;
+
+  User({
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.username,
+    required this.password
+  });
+
+  User.fromMap(Map<String, dynamic> data)
+  : this.name = data['name'],
+  this.email = data['email'],
+  this.phone = data['phone'],
+  this.username = data['username'],
+  this.password = data['password'];
+
+  Map<String, Object?> toMap() {
+    return {'name': this.name, 'email': this.email, 'phone': this.phone, 'username': this.username, 'password': this.password};
+  }
+}
+
 class PageOne extends StatelessWidget {
   final int spaceBetween;
   
