@@ -10,11 +10,12 @@ import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/screens/login.dart';
 import 'package:path_provider/path_provider.dart';
 
-final int spaceBetween = 15;
-
 class PageOne extends StatelessWidget {
+  final int spaceBetween;
+  
   PageOne({
-    Key? key
+    Key? key,
+    this.spaceBetween = 15
   }) : super(key: key);
 
   @override
@@ -22,13 +23,16 @@ class PageOne extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        SizedBox(height: spaceBetween.h),
+        SizedBox(height: this.spaceBetween.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(
-              Icons.account_circle_rounded,
-              size: 50.sp,
+            Padding(  
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: Icon(
+                Icons.account_circle_rounded,
+                size: 50.sp,
+              ),
             ),
             SizedBox(
               width: 270.w,
@@ -40,13 +44,16 @@ class PageOne extends StatelessWidget {
             )
           ]
         ),
-        SizedBox(height: spaceBetween.h),
+        SizedBox(height: this.spaceBetween.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(
-              Icons.email,
-              size: 50.sp,
+            Padding(  
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: Icon(
+                Icons.email,
+                size: 50.sp,
+              ),
             ),
             SizedBox(
               width: 270.w,
@@ -59,13 +66,16 @@ class PageOne extends StatelessWidget {
             )
           ]
         ),
-        SizedBox(height: spaceBetween.h),
+        SizedBox(height: this.spaceBetween.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(
-              Icons.local_phone_rounded,
-              size: 50.sp,
+            Padding(  
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: Icon(
+                Icons.local_phone_rounded,
+                size: 50.sp,
+              ),
             ),
             SizedBox(
               width: 270.w,
@@ -85,8 +95,11 @@ class PageOne extends StatelessWidget {
 }
 
 class PageTwo extends StatelessWidget {
+  final int spaceBetween;
+  
   PageTwo({
-    Key? key
+    Key? key,
+    this.spaceBetween = 15
   }) : super(key: key);
 
   @override
@@ -94,12 +107,17 @@ class PageTwo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
+        SizedBox(height: this.spaceBetween.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.star,
-              size: 50.sp,
+            Padding(  
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: Icon(
+                Icons.star,
+                size: 50.sp,
+              ),
             ),
             SizedBox(
               width: 270.w,
@@ -111,13 +129,16 @@ class PageTwo extends StatelessWidget {
             )
           ]
         ),
-        SizedBox(height: spaceBetween.h),
+        SizedBox(height: this.spaceBetween.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(
-              Icons.key,
-              size: 50.sp,
+            Padding(  
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: Icon(
+                Icons.key,
+                size: 50.sp,
+              ),
             ),
             SizedBox(
               width: 270.w,
@@ -130,14 +151,17 @@ class PageTwo extends StatelessWidget {
             )
           ]
         ),
-        SizedBox(height: spaceBetween.h),
+        SizedBox(height: this.spaceBetween.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(
-              Icons.lock,
-              size: 50.sp,
-            ),
+            Padding(  
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: Icon(
+                Icons.lock,
+                size: 50.sp,
+              ),
+            ),           
             SizedBox(
               width: 270.w,
               child: MyTextField().createTextField(
@@ -148,22 +172,7 @@ class PageTwo extends StatelessWidget {
             )
           ]
         ),
-        SizedBox(height: spaceBetween.h),
-        /*
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [                
-            SizedBox(
-              width: 150.w,
-              child: Button().createButton(message: 'Cancelar', action: () => returnToLogin(context))
-            ),
-            SizedBox(
-              width: 150.w,
-              child: Button().createButton(message: 'Cadastrar', action: () => formKey.currentState!.validate())
-            ),
-          ]
-        )
-        */
+        SizedBox(height: this.spaceBetween.h),
       ]
     );
   }
@@ -177,6 +186,14 @@ class Register extends StatefulWidget {
 class RegisterState extends State<Register> {
   File? profileImage;
   final formKey = GlobalKey<FormState>();
+  final _pageController = PageController(initialPage: 0);
+  int currentPage = 0;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   Future<void> pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -248,6 +265,8 @@ class RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: ProjectColors().backgroundV1,
       resizeToAvoidBottomInset: true,
@@ -257,12 +276,15 @@ class RegisterState extends State<Register> {
             Icons.arrow_back_ios,
           ),
           onPressed: () {
+            /*
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => Login()
               )
-            );            
+            );
+            */
+            returnToLogin(context);           
           }
         ),
         title: Text("Cadastro de Usuário"),
@@ -278,7 +300,7 @@ class RegisterState extends State<Register> {
               key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   SizedBox(height: 10.h),
                   InkWell(
                     onTap: () => pickImage(), 
@@ -286,13 +308,63 @@ class RegisterState extends State<Register> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(60),
                         child: profileImage != null ? 
-                        Image.file(profileImage!, width: 100.sp, height: 100.sp, fit: BoxFit.cover) : 
+                        Image.file(profileImage!, width: 100.sp, height: 100.sp, fit: BoxFit.cover) :
                         Image.asset('assets/images/user_icon.png', width: 100.sp, height: 100.sp)
                       )
                     ),
                   ),
-                 SizedBox(height: spaceBetween.h),
-               ]
+                  Container(
+                    height: screenHeight - 300, 
+                    width: screenWidth,
+                    child: PageView(
+                      physics: NeverScrollableScrollPhysics(),
+                      controller: _pageController,
+                      children: <Widget>[
+                        PageOne(spaceBetween: 40),
+                        PageTwo(spaceBetween: 40)
+                      ]
+                    )
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [                
+                      SizedBox(
+                        width: 150.w,
+                        child: Button().createButton(
+                          message: currentPage == 0 ? 'Cancelar' : 'Voltar', 
+                          action: () {
+                            if(currentPage == 0)
+                              returnToLogin(context);
+                            else {
+                              _pageController.previousPage(
+                                duration: const Duration(milliseconds: 200),
+                                curve: Curves.easeInOut
+                              );
+                              setState(() { currentPage--; });
+                            }
+                          }
+                        )
+                      ),
+                      SizedBox(
+                        width: 150.w,
+                        child: Button().createButton(
+                          message: currentPage == 0 ? 'Continuar' : 'Cadastrar', 
+                          action: () {
+                            if(formKey.currentState!.validate()) {
+                              if(currentPage == 0) {  
+                                _pageController.nextPage(
+                                  duration: const Duration(milliseconds: 200),
+                                  curve: Curves.easeInOut
+                                );
+                                setState(() { currentPage++; });
+                              }
+                            }
+                          }
+                        )
+                      ),
+                    ]
+                  )
+                ]
               )
             )
           )

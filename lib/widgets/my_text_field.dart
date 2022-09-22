@@ -34,6 +34,11 @@ class MyTextField {
       errorStyle: GoogleFonts.poppins(
         fontSize: 10.sp,
         fontWeight: FontWeight.w400
+      ),
+      helperText: ' ',
+      helperStyle: GoogleFonts.poppins(
+        fontSize: 10.sp,
+        fontWeight: FontWeight.w400
       )
     );
   }
