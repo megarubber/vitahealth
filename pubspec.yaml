@@ -76,6 +76,7 @@ flutter:
   assets:
      - assets/images/logo_RGB.png
      - assets/images/user_icon.png
+     - assets/databases/vitahealth.db
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
