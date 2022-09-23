@@ -9,6 +9,7 @@ import 'package:vitahealth/widgets/my_text_field.dart';
 import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/screens/login.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:vitahealth/database.dart';
 
 class PageOne extends StatelessWidget {
   final int spaceBetween;
@@ -96,7 +97,7 @@ class PageOne extends StatelessWidget {
 
 class PageTwo extends StatelessWidget {
   final int spaceBetween;
-  
+
   PageTwo({
     Key? key,
     this.spaceBetween = 15
@@ -188,6 +189,7 @@ class RegisterState extends State<Register> {
   final formKey = GlobalKey<FormState>();
   final _pageController = PageController(initialPage: 0);
   int currentPage = 0;
+  late MyDatabase database = MyDatabase(name: 'vitahealth');
 
   @override
   void dispose() {
@@ -202,11 +204,17 @@ class RegisterState extends State<Register> {
     setState(() => profileImage = imageTemporary);
   }
 
-  void testForms(BuildContext context) {
+  void submitForms(BuildContext context) {
     // Turn off the focus from TextField
     FocusNode? currentFocus = FocusScope.of(context).focusedChild;
     if (currentFocus != null) currentFocus.unfocus();
 
+    // Send data
+    this.database.insertUser(User(name: 'peter', email: 'p@gmail.com', phone: '111', username: 'ptr', password: '123'));
+    
+    //print(this.database.getUser());
+    //setState(() {});
+    /*
     // Start Alert
     showDialog(
       context: context,
@@ -225,6 +233,7 @@ class RegisterState extends State<Register> {
         );
       }
     );
+    */
   }
 
   void returnToLogin(BuildContext context) {
@@ -243,6 +252,7 @@ class RegisterState extends State<Register> {
             TextButton(
               child: Text("Sim"),
               onPressed: () {
+                submitForms(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
