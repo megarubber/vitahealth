@@ -4,12 +4,13 @@ import 'package:vitahealth/widgets/my_text_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/colors.dart';
-import 'dart:io';
 import 'package:vitahealth/widgets/my_text_field.dart';
 import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/screens/login.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vitahealth/database.dart';
+import 'dart:io';
+import 'package:vitahealth/widgets/my_alert_dialog.dart';
 
 class PageOne extends StatelessWidget {
   final int spaceBetween;
@@ -194,6 +195,7 @@ class RegisterState extends State<Register> {
   @override
   void dispose() {
     _pageController.dispose();
+    database.dispose();
     super.dispose();
   }
 
@@ -211,28 +213,10 @@ class RegisterState extends State<Register> {
 
     // Send data
     this.database.insertUser(User(name: 'peter', email: 'p@gmail.com', phone: '111', username: 'ptr', password: '123'));
-    
-    //print(this.database.getUser());
-    //setState(() {});
+
     /*
     // Start Alert
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Erro"),
-          content: Text("Teste de erro"),
-          actions: <Widget>[
-            TextButton(
-              child: Text("Ok"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }
-            )
-          ]
-        );
-      }
-    );
+    MyAlertDialog().showConfirmDialog();
     */
   }
 
@@ -242,34 +226,21 @@ class RegisterState extends State<Register> {
     if (currentFocus != null) currentFocus.unfocus();
 
     // Start Alert
-    showDialog(
+    MyAlertDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Alerta"),
-          content: Text("Você realmente deseja cancelar o cadastro?"),
-          actions: <Widget>[
-            TextButton(
-              child: Text("Sim"),
-              onPressed: () {
-                submitForms(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Login()
-                  )
-                );
-              }
-            ),
-            TextButton(
-              child: Text("Não"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }
-            )
-          ]
+      title: 'Alerta',
+      message: 'Você realmente deseja cancelar o cadastro?'
+    ).showYesOrNoAlert(
+      chooseYes: () {
+        submitForms(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login()
+          )
         );
-      }
+      },
+      chooseNo: () => Navigator.of(context).pop()
     );
   }
 
@@ -343,6 +314,7 @@ class RegisterState extends State<Register> {
                         child: Button().createButton(
                           message: currentPage == 0 ? 'Cancelar' : 'Voltar', 
                           action: () {
+                            /*
                             if(currentPage == 0)
                               returnToLogin(context);
                             else {
@@ -352,6 +324,8 @@ class RegisterState extends State<Register> {
                               );
                               setState(() { currentPage--; });
                             }
+                            */
+                            database.initiateDatabase();
                           }
                         )
                       ),
@@ -360,6 +334,7 @@ class RegisterState extends State<Register> {
                         child: Button().createButton(
                           message: currentPage == 0 ? 'Continuar' : 'Cadastrar', 
                           action: () {
+                            /*
                             if(formKey.currentState!.validate()) {
                               if(currentPage == 0) {  
                                 _pageController.nextPage(
@@ -369,6 +344,9 @@ class RegisterState extends State<Register> {
                                 setState(() { currentPage++; });
                               }
                             }
+                            */
+                            //submitForms(context);
+                            print(database.getUser(0));
                           }
                         )
                       ),
