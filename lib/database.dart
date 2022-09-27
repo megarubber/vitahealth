@@ -37,14 +37,18 @@ class User {
 
 class MyDatabase {
   final String name;
+  static Database? _database;
 
   MyDatabase({
-    required this.name
+    required this.name,
   });
-  
-  Future<Database> initializeDatabase() async {
+
+  Future<Database> get database async => _database ??= await initiateDatabase();
+
+  Future<Database> initiateDatabase() async {
     String databasePath = await getDatabasesPath();
-    return openDatabase(
+    print('Database was created!');
+    return await openDatabase(
       join(databasePath, this.name + '.db'),
       onCreate: (database, version) async {
         await database.execute(
@@ -63,12 +67,28 @@ class MyDatabase {
       version: 1
     );
   }
-
+  
   Future<int> insertUser(User user) async {
+    final Database db = await database;
     int result = 0;
-    final Database database = await initializeDatabase();
-    result = await database.insert('user', user.toMap());
+    result = await db.insert('user', user.toMap());
     return result;
+  }
+
+  Future<User> getUser(int id) async {
+    final Database db = await database;
+    final List<Map<String, Object?>> queryResult = await db.query(
+      'user',
+      where: 'id = ?',
+      whereArgs: [id.toString()]
+    );
+    final List<User> singleUser = queryResult.map((e) => User.fromMap(e)).toList();
+    return singleUser[0];
+  }
+
+  Future dispose() async {
+    final db = await database;
+    db.close();
   }
 }
 
