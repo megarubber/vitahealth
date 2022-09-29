@@ -319,7 +319,7 @@ class RegisterState extends State<Register> {
                       controller: _pageController,
                       children: <Widget>[
                         PageOne(spaceBetween: 40),
-                        PageTwo(spaceBetween: 40)
+                        PageTwo(spaceBetween: 40),
                       ]
                     )
                   ),
@@ -340,6 +340,7 @@ class RegisterState extends State<Register> {
                               );
                               setState(() { currentPage--; });
                             }
+                            //testar();
                           }
                         )
                       ),
@@ -357,9 +358,8 @@ class RegisterState extends State<Register> {
                                 setState(() { currentPage++; });
                               } else {
                                 List<String> passwords = [];
-                                passwords[0] = myTextFieldControllers['password']?.text ?? '1234';
-                                passwords[1] = myTextFieldControllers['confirm-password']?.text ?? '5678';
-
+                                passwords.add(myTextFieldControllers['password']?.text ?? '1234');
+                                passwords.add(myTextFieldControllers['confirm-password']?.text ?? '5678');
                                 // Tests if the two passwords are equal
                                 if(passwords[0] == passwords[1]) {
                                   submitForms(
