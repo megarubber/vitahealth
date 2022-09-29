@@ -77,13 +77,28 @@ class MyDatabase {
 
   Future<User> getUser(int id) async {
     final Database db = await database;
+
     final List<Map<String, Object?>> queryResult = await db.query(
       'user',
       where: 'id = ?',
       whereArgs: [id.toString()]
     );
+    
+    /*
+    final List<Map<String, Object?>> queryResult = await db.rawQuery(
+      'SELECT * FROM user WHERE id =?', [id.toString()]
+    );
+    */
+    
     final List<User> singleUser = queryResult.map((e) => User.fromMap(e)).toList();
     return singleUser[0];
+  }
+
+  Future<List<User>> getAllUsers() async {
+    final Database db = await database;
+    final List<Map<String, Object?>> queryResult = await db.query('user');
+    queryResult.forEach((row) => print(row));
+    return queryResult.map((user) => User.fromMap(user)).toList();
   }
 
   Future dispose() async {
