@@ -256,6 +256,8 @@ class RegisterState extends State<Register> {
             builder: (context) => Login()
           )
         );
+        // Reset values from all fields
+        myTextFieldControllers.updateAll((field, value) => value = TextEditingController(text: ''));
       },
       chooseNo: () => Navigator.of(context).pop()
     );
