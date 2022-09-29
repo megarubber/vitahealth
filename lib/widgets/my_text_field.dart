@@ -60,8 +60,10 @@ class MyTextField {
   int colorMode = 0, bool hide = false, bool active = true, 
   required String validatorText,
   TextInputType keyboard = TextInputType.text,
-  String? formatter}) {
+  String? formatter,
+  TextEditingController? controller}) {
     return TextFormField(
+      controller: controller,
       decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       //autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: hide,
