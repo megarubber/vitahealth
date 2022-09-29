@@ -12,6 +12,15 @@ import 'package:vitahealth/database.dart';
 import 'dart:io';
 import 'package:vitahealth/widgets/my_alert_dialog.dart';
 
+Map<String, TextEditingController> myTextFieldControllers = {
+  'name' : new TextEditingController(),
+  'email' : new TextEditingController(),
+  'phone' : new TextEditingController(),
+  'username' : new TextEditingController(),
+  'password' : new TextEditingController(),
+  'confirm-password' : new TextEditingController(),
+}; 
+
 class PageOne extends StatelessWidget {
   final int spaceBetween;
   
@@ -39,6 +48,7 @@ class PageOne extends StatelessWidget {
             SizedBox(
               width: 270.w,
               child: MyTextField().createTextField(
+                controller: myTextFieldControllers['name'],
                 hint: "Nome e Sobrenome", 
                 validatorText: "Nome e Sobrenome inválidos!",
                 exp: r'^\w[A-Za-záàâãéèêíïóôõöúçñ]{2,}\s\w[A-Za-záàâãéèêíïóôõöúçñ]{2,}$',
@@ -60,6 +70,7 @@ class PageOne extends StatelessWidget {
             SizedBox(
               width: 270.w,
               child: MyTextField().createTextField(
+                controller: myTextFieldControllers['email'],
                 hint: "E-mail",
                 validatorText: "E-mail inválido!",
                 exp: r'^[a-z]{1}[A-Za-z0-9_.]{6,}@[a-z]{3,}\.com(\.br)?$',
@@ -82,6 +93,7 @@ class PageOne extends StatelessWidget {
             SizedBox(
               width: 270.w,
               child: MyTextField().createTextField(
+                controller: myTextFieldControllers['phone'],
                 hint: "Telefone",
                 validatorText: 'Telefone Inválido!',
                 keyboard: TextInputType.phone,
@@ -124,6 +136,7 @@ class PageTwo extends StatelessWidget {
             SizedBox(
               width: 270.w,
               child: MyTextField().createTextField(
+                controller: myTextFieldControllers['username'],
                 hint: "Nome de usuário", 
                 validatorText: "Nome de usuário inválido!",
                 exp: r'^[a-z_.]{1}[a-z0-9_.]{5,}$'
@@ -145,6 +158,7 @@ class PageTwo extends StatelessWidget {
             SizedBox(
               width: 270.w,
               child: MyTextField().createTextField(
+                controller: myTextFieldControllers['password'],
                 hint: "Senha", 
                 hide: true, 
                 validatorText: "Senha inválida!",
@@ -167,9 +181,11 @@ class PageTwo extends StatelessWidget {
             SizedBox(
               width: 270.w,
               child: MyTextField().createTextField(
-                hint: "Confirme a senha", 
+                controller: myTextFieldControllers['confirm-password'],
+                hint: 'Confirme a senha', 
                 hide: true, 
-                validatorText: "As senhas precisam ser iguais"
+                validatorText: 'As senhas precisam ser iguais',
+                exp: r'^(?=.*\d.*\d)(?=.*[a-z])(?=.*[A-Z]).[A-Za-z0-9_.]{8,}$'
               )
             )
           ]
@@ -206,13 +222,15 @@ class RegisterState extends State<Register> {
     setState(() => profileImage = imageTemporary);
   }
 
-  void submitForms(BuildContext context) {
+  void submitForms({required BuildContext context, required User user}) {
     // Turn off the focus from TextField
     FocusNode? currentFocus = FocusScope.of(context).focusedChild;
     if (currentFocus != null) currentFocus.unfocus();
 
     // Send data
-    this.database.insertUser(User(name: 'peter', email: 'p@gmail.com', phone: '111', username: 'ptr', password: '123'));
+    this.database.insertUser(user);
+
+    print(this.database.getAllUsers());
 
     /*
     // Start Alert
@@ -232,7 +250,6 @@ class RegisterState extends State<Register> {
       message: 'Você realmente deseja cancelar o cadastro?'
     ).showYesOrNoAlert(
       chooseYes: () {
-        submitForms(context);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -314,7 +331,6 @@ class RegisterState extends State<Register> {
                         child: Button().createButton(
                           message: currentPage == 0 ? 'Cancelar' : 'Voltar', 
                           action: () {
-                            /*
                             if(currentPage == 0)
                               returnToLogin(context);
                             else {
@@ -324,8 +340,6 @@ class RegisterState extends State<Register> {
                               );
                               setState(() { currentPage--; });
                             }
-                            */
-                            database.initiateDatabase();
                           }
                         )
                       ),
@@ -334,7 +348,6 @@ class RegisterState extends State<Register> {
                         child: Button().createButton(
                           message: currentPage == 0 ? 'Continuar' : 'Cadastrar', 
                           action: () {
-                            /*
                             if(formKey.currentState!.validate()) {
                               if(currentPage == 0) {  
                                 _pageController.nextPage(
@@ -342,11 +355,32 @@ class RegisterState extends State<Register> {
                                   curve: Curves.easeInOut
                                 );
                                 setState(() { currentPage++; });
+                              } else {
+                                List<String> passwords = [];
+                                passwords[0] = myTextFieldControllers['password']?.text ?? '1234';
+                                passwords[1] = myTextFieldControllers['confirm-password']?.text ?? '5678';
+
+                                // Tests if the two passwords are equal
+                                if(passwords[0] == passwords[1]) {
+                                  submitForms(
+                                    context: context,
+                                    user: User(
+                                      name: myTextFieldControllers['name']?.text ?? 'user',
+                                      email: myTextFieldControllers['email']?.text ?? 'user@user.com',
+                                      phone: myTextFieldControllers['phone']?.text ?? '(00) 00000-0000',
+                                      username: myTextFieldControllers['username']?.text ?? 'user_test',
+                                      password: myTextFieldControllers['password']?.text ?? '1234'
+                                    )
+                                  );
+                                } else {
+                                  MyAlertDialog(
+                                    context: context,
+                                    title: 'Atenção!',
+                                    message: 'As senhas precisam ser iguais.'
+                                  ).showConfirmAlert();
+                                }
                               }
                             }
-                            */
-                            //submitForms(context);
-                            print(database.getUser(0));
                           }
                         )
                       ),
