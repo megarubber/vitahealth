@@ -14,13 +14,15 @@ class User {
   final String phone;
   final String username;
   final String password;
+  final Uint8list picture;
 
   User({
     required this.name,
     required this.email,
     required this.phone,
     required this.username,
-    required this.password
+    required this.password,
+    required this.picture
   });
 
   User.fromMap(Map<String, dynamic> data)
@@ -28,10 +30,18 @@ class User {
   this.email = data['email'],
   this.phone = data['phone'],
   this.username = data['username'],
-  this.password = data['password'];
+  this.password = data['password'],
+  this.picture = data['picture'];
 
   Map<String, Object?> toMap() {
-    return {'name': this.name, 'email': this.email, 'phone': this.phone, 'username': this.username, 'password': this.password};
+    return {
+      'name': this.name, 
+      'email': this.email, 
+      'phone': this.phone, 
+      'username': this.username, 
+      'password': this.password,
+      'picture' : this.picture
+    };
   }
 }
 
@@ -59,7 +69,8 @@ class MyDatabase {
             email VARCHAR(20) NOT NULL,
             phone VARCHAR(16) NOT NULL,
             username VARCHAR(15) NOT NULL,
-            password VARCHAR(20) NOT NULL
+            password VARCHAR(20) NOT NULL,
+            picture BLOB NOT NULL
           );
           '''
         );

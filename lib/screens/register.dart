@@ -21,6 +21,8 @@ Map<String, TextEditingController> myTextFieldControllers = {
   'confirm-password' : new TextEditingController(),
 }; 
 
+File? profileImage;
+
 class PageOne extends StatelessWidget {
   final int spaceBetween;
   
@@ -202,7 +204,6 @@ class Register extends StatefulWidget {
 }
 
 class RegisterState extends State<Register> {
-  File? profileImage;
   final formKey = GlobalKey<FormState>();
   final _pageController = PageController(initialPage: 0);
   int currentPage = 0;
@@ -371,7 +372,8 @@ class RegisterState extends State<Register> {
                                       email: myTextFieldControllers['email']?.text ?? 'user@user.com',
                                       phone: myTextFieldControllers['phone']?.text ?? '(00) 00000-0000',
                                       username: myTextFieldControllers['username']?.text ?? 'user_test',
-                                      password: myTextFieldControllers['password']?.text ?? '1234'
+                                      password: myTextFieldControllers['password']?.text ?? '1234',
+                                      profileImage.bodyBytes
                                     )
                                   );
                                 } else {
