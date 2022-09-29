@@ -97,7 +97,7 @@ class MyDatabase {
   Future<List<User>> getAllUsers() async {
     final Database db = await database;
     final List<Map<String, Object?>> queryResult = await db.query('user');
-    queryResult.forEach((row) => print(row));
+    //queryResult.forEach((row) => print(row));
     return queryResult.map((user) => User.fromMap(user)).toList();
   }
 

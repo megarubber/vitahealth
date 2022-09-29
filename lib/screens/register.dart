@@ -230,12 +230,12 @@ class RegisterState extends State<Register> {
     // Send data
     this.database.insertUser(user);
 
-    print(this.database.getAllUsers());
-
-    /*
     // Start Alert
-    MyAlertDialog().showConfirmDialog();
-    */
+    MyAlertDialog(
+      context: context,
+      title: 'Confirmação',
+      message: 'Registro feito com sucesso!'
+    ).showConfirmAlert();
   }
 
   void returnToLogin(BuildContext context) {
