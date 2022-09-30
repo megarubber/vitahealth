@@ -1,9 +1,9 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'dart:typed_data';
 
 /*
 // Embedding .db files
-import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'dart:io';
 */
@@ -14,7 +14,7 @@ class User {
   final String phone;
   final String username;
   final String password;
-  final Uint8list picture;
+  final String picture;
 
   User({
     required this.name,
@@ -103,6 +103,11 @@ class MyDatabase {
     
     final List<User> singleUser = queryResult.map((e) => User.fromMap(e)).toList();
     return singleUser[0];
+  }
+  
+  Future<Object?> getSpecificAttribute(int id, String column) async {
+    final user = await getUser(id);
+    return user.toMap()[column];
   }
 
   Future<List<User>> getAllUsers() async {
