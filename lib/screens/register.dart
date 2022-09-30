@@ -1,16 +1,24 @@
+// pub.dev packages
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vitahealth/widgets/my_text_field.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+
+// project packages
+import 'package:vitahealth/widgets/my_text_field.dart';
 import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/colors.dart';
 import 'package:vitahealth/widgets/my_text_field.dart';
 import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/screens/login.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:vitahealth/database.dart';
-import 'dart:io';
 import 'package:vitahealth/widgets/my_alert_dialog.dart';
+import 'package:vitahealth/utility.dart';
+
+// dart packages
+import 'dart:io';
+import 'dart:convert';
+import 'dart:typed_data';
 
 Map<String, TextEditingController> myTextFieldControllers = {
   'name' : new TextEditingController(),
@@ -20,8 +28,6 @@ Map<String, TextEditingController> myTextFieldControllers = {
   'password' : new TextEditingController(),
   'confirm-password' : new TextEditingController(),
 }; 
-
-File? profileImage;
 
 class PageOne extends StatelessWidget {
   final int spaceBetween;
@@ -204,10 +210,12 @@ class Register extends StatefulWidget {
 }
 
 class RegisterState extends State<Register> {
+  File? profileImage;
   final formKey = GlobalKey<FormState>();
   final _pageController = PageController(initialPage: 0);
   int currentPage = 0;
   late MyDatabase database = MyDatabase(name: 'vitahealth');
+  String imageString = '';
 
   @override
   void dispose() {
@@ -220,10 +228,11 @@ class RegisterState extends State<Register> {
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
     if(image == null) return;
     final imageTemporary = File(image.path);
+    imageString = Utility.base64String(imageTemporary.readAsBytesSync());
     setState(() => profileImage = imageTemporary);
   }
 
-  void submitForms({required BuildContext context, required User user}) {
+  void submitForm({required BuildContext context, required User user}) {
     // Turn off the focus from TextField
     FocusNode? currentFocus = FocusScope.of(context).focusedChild;
     if (currentFocus != null) currentFocus.unfocus();
@@ -237,6 +246,9 @@ class RegisterState extends State<Register> {
       title: 'Confirmação',
       message: 'Registro feito com sucesso!'
     ).showConfirmAlert();
+
+    // Show all users
+    print(this.database.getAllUsers());
   }
 
   void returnToLogin(BuildContext context) {
@@ -310,6 +322,11 @@ class RegisterState extends State<Register> {
                         borderRadius: BorderRadius.circular(60),
                         child: profileImage != null ? 
                         Image.file(profileImage!, width: 100.sp, height: 100.sp, fit: BoxFit.cover) :
+                        /*
+                        Image.memory(
+                          Base64Decoder().convert(this.database.getSpecificAttribute(0, 'picture')), 
+                          width: 100.sp, height: 100.sp, fit: BoxFit.cover)
+                        */
                         Image.asset('assets/images/user_icon.png', width: 100.sp, height: 100.sp)
                       )
                     ),
@@ -365,7 +382,7 @@ class RegisterState extends State<Register> {
                                 passwords.add(myTextFieldControllers['confirm-password']?.text ?? '5678');
                                 // Tests if the two passwords are equal
                                 if(passwords[0] == passwords[1]) {
-                                  submitForms(
+                                  submitForm(
                                     context: context,
                                     user: User(
                                       name: myTextFieldControllers['name']?.text ?? 'user',
@@ -373,7 +390,7 @@ class RegisterState extends State<Register> {
                                       phone: myTextFieldControllers['phone']?.text ?? '(00) 00000-0000',
                                       username: myTextFieldControllers['username']?.text ?? 'user_test',
                                       password: myTextFieldControllers['password']?.text ?? '1234',
-                                      profileImage.bodyBytes
+                                      picture: imageString
                                     )
                                   );
                                 } else {
