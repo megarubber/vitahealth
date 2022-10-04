@@ -169,7 +169,7 @@ class PageTwo extends StatelessWidget {
                 controller: myTextFieldControllers['password'],
                 hint: "Senha", 
                 hide: true, 
-                validatorText: "Senha inválida!",
+                validatorText: 'Senha inválida!',
                 exp: r'^(?=.*\d.*\d)(?=.*[a-z])(?=.*[A-Z]).[A-Za-z0-9_.]{8,}$'
               )
             )
@@ -192,7 +192,7 @@ class PageTwo extends StatelessWidget {
                 controller: myTextFieldControllers['confirm-password'],
                 hint: 'Confirme a senha', 
                 hide: true, 
-                validatorText: 'As senhas precisam ser iguais',
+                validatorText: 'Senha inválida!',
                 exp: r'^(?=.*\d.*\d)(?=.*[a-z])(?=.*[A-Z]).[A-Za-z0-9_.]{8,}$'
               )
             )
@@ -391,8 +391,8 @@ class RegisterState extends State<Register> {
                                 List<String> passwords = [];
                                 passwords.add(myTextFieldControllers['password']?.text ?? '1234');
                                 passwords.add(myTextFieldControllers['confirm-password']?.text ?? '5678');
-                                // Tests if the two passwords are equal
-                                if(passwords[0] == passwords[1]) {
+                                // Tests if the two passwords are equal & profile image exists
+                                if(passwords[0] == passwords[1] && profileImage != null) {
                                   submitForm(
                                     context: context,
                                     user: User(
@@ -404,14 +404,20 @@ class RegisterState extends State<Register> {
                                       picture: imageString
                                     )
                                   );
-                                } else {
+                                } else if(passwords[0] != passwords[1] && profileImage != null){
                                   MyAlertDialog(
                                     context: context,
                                     title: 'Atenção!',
                                     message: 'As senhas precisam ser iguais.'
                                   ).showConfirmAlert();
-                                }
-                              }
+                                } else {
+                                  MyAlertDialog(
+                                    context: context,
+                                    title: 'Atenção!',
+                                    message: 'É necessário inserir uma foto de perfil.'
+                                  ).showConfirmAlert();
+                              	}
+							  }
                             }
                           }
                         )
