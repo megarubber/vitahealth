@@ -216,7 +216,18 @@ class RegisterState extends State<Register> {
   int currentPage = 0;
   late MyDatabase database = MyDatabase(name: 'vitahealth');
   String imageString = '';
-  String teste = '';
+  
+  /*
+  String test = '';
+  
+  void maisteste() {
+  	this.database.getSpecificAttribute(1, 'picture').then(
+	  (result) {
+	  	setState(() { test = result.toString(); });
+	  }
+	);
+  }
+  */
 
   @override
   void dispose() {
@@ -257,8 +268,6 @@ class RegisterState extends State<Register> {
     FocusNode? currentFocus = FocusScope.of(context).focusedChild;
     if (currentFocus != null) currentFocus.unfocus();
 	
-	maisteste();
-	
     // Start Alert
     MyAlertDialog(
       context: context,
@@ -279,14 +288,6 @@ class RegisterState extends State<Register> {
     );
   }
   
-  void maisteste() {
-  	this.database.getSpecificAttribute(1, 'picture').then(
-	  (result) {
-	  	setState(() { teste = result.toString(); });
-	  }
-	);
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -333,12 +334,12 @@ class RegisterState extends State<Register> {
                         borderRadius: BorderRadius.circular(60),
                         child: profileImage != null ? 
                         Image.file(profileImage!, width: 100.sp, height: 100.sp, fit: BoxFit.cover) :
-                        
+                        /*
 						Image.memory(
-                          Base64Decoder().convert(teste), 
+                          Base64Decoder().convert(test), 
                           width: 100.sp, height: 100.sp, fit: BoxFit.cover)
-                        
-						//Image.asset('assets/images/user_icon.png', width: 100.sp, height: 100.sp)
+                        */
+						Image.asset('assets/images/user_icon.png', width: 100.sp, height: 100.sp)
                       )
                     ),
                   ),
@@ -371,7 +372,6 @@ class RegisterState extends State<Register> {
                               );
                               setState(() { currentPage--; });
                             }
-                            //testar();
                           }
                         )
                       ),
