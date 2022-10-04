@@ -36,6 +36,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^3.0.1
   flutter_screenutil: ^5.5.3+2
+  image_picker: ^0.8.5+3
+  mask_text_input_formatter: ^2.4.0
+  path_provider: ^2.0.11
+  intl: ^0.17.0
+  sqflite: any
+  path: any
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +75,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/images/logo_RGB.png
+     - assets/images/user_icon.png
+     - assets/databases/vitahealth.db
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

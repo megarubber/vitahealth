@@ -8,9 +8,14 @@ class Button {
     print("You pressed the button!");
   }
 
-  Widget createButton({required String message, required VoidCallback action}) {
+  Widget createButton({required String message, bool enableButton = true, required VoidCallback action}) {
     return OutlinedButton(
-      onPressed: () => action(),
+      onPressed: () {
+        if(enableButton)
+          action();
+        else
+          return null;
+      },
       style: ButtonStyle(
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
         backgroundColor: MaterialStateProperty.all(ProjectColors().buttonBackground),
