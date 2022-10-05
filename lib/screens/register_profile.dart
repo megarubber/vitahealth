@@ -29,7 +29,7 @@ class RegisterProfileStatus extends State<RegisterProfile> {
     double result = (mass/(height * height));
     print(height * height);
 
-    String baseMsg = 'Seu IMC é de: ' + result.toString();
+    String baseMsg = 'Seu IMC é de: ' + result.toStringAsFixed(2);
 
     if(result < 18.5)
       baseMsg += ', o que indica MAGREZA!';
