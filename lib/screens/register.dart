@@ -335,11 +335,11 @@ class RegisterState extends State<Register> {
                         child: profileImage != null ? 
                         Image.file(profileImage!, width: 100.sp, height: 100.sp, fit: BoxFit.cover) :
                         /*
-						Image.memory(
+						              Image.memory(
                           Base64Decoder().convert(test), 
                           width: 100.sp, height: 100.sp, fit: BoxFit.cover)
                         */
-						Image.asset('assets/images/user_icon.png', width: 100.sp, height: 100.sp)
+						            Image.asset('assets/images/user_icon.png', width: 100.sp, height: 100.sp)
                       )
                     ),
                   ),
@@ -417,7 +417,7 @@ class RegisterState extends State<Register> {
                                     message: 'É necessário inserir uma foto de perfil.'
                                   ).showConfirmAlert();
                               	}
-							  }
+	              						  }
                             }
                           }
                         )
