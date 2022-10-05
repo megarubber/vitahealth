@@ -102,6 +102,27 @@ class MyTextField {
     );
   }
 
+  Widget createTimeInput({required TextEditingController timeInput, required BuildContext myContext, required String hint, int colorMode = 0}) {
+    return TextField(
+      controller: timeInput,
+      decoration: defaultDecoration(colorMode: colorMode, hint: hint),
+      readOnly: true,
+      onTap: () async {
+        TimeOfDay? pickedTime = await showTimePicker(
+          context: myContext,
+          initialTime: TimeOfDay.now(),
+        );
+        if(pickedTime != null) {
+          String formattedTime = MaterialLocalizations.of(myContext).formatTimeOfDay(
+            pickedTime,
+            alwaysUse24HourFormat: true
+          );
+          timeInput.text = formattedTime;
+        } else timeInput.text = "";
+      }
+    );
+  }
+
   Widget createNumberField({required String hint, int colorMode = 0, TextEditingController? inputValue}) {
     return TextFormField(
       decoration: defaultDecoration(colorMode: colorMode, hint: hint),
