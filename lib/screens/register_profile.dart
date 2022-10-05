@@ -3,35 +3,54 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vitahealth/colors.dart';
 import 'package:vitahealth/widgets/my_text_field.dart';
+import 'package:vitahealth/widgets/my_checkbox.dart';
 import 'package:intl/intl.dart';
 
-class OneCharCheckbox extends StatelessWidget {
-  bool value;
-  String text;
-  Function(bool?) onChanged;
+class TrainWeek extends StatefulWidget {
+  final String text;
 
-  OneCharCheckbox({
-    Key? key,
-    required this.value,
-    required this.text,
-    required this.onChanged
-  }) : super(key: key);
+  @override
+  State<TrainWeek> createState() => _TrainWeekState();
+}
+
+class _TrainWeekState extends State<TrainWeek> {
+  bool checkBoxValue;
+  final String checkboxText;
+  TextController timeInput;
+  BuildContext context;
+
+  _TrainWeekState({
+    required this.timeInput,
+    required this.checkBox,
+    required this.timeInput
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Checkbox(
-          value: this.value,
-          onChanged: this.onChanged
+        Padding(
+          padding: EdgeInsets.only(bottom: 30),
+          child: MyCheckbox(
+            value: this.checkboxValue,
+            text: this.text,
+            onChanged: (bool? value) {
+              setState(() {
+                this.checkBoxValue = value!;
+              });
+            }
+          ).createSimpleCheckbox(),
         ),
-        Text(
-          this.text,
-          style: GoogleFonts.poppins(
-            fontSize: 15.sp,
-            color: ProjectColors().title
-          ),
-          textAlign: TextAlign.center
+        SizedBox(width: 10.w),
+        SizedBox(
+          width: 160.w,
+          child: MyTextField().createTimeInput(
+            timeInput: this.timeInput,
+            myContext: this.context,
+            hint: 'Hora'
+          )
         )
       ]
     );
@@ -168,43 +187,7 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                     textAlign: TextAlign.center
                   ),
                   SizedBox(height: 20.h),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 30),
-                        child: Row(
-                          children: <Widget>[
-                            Checkbox(
-                              value: this.walk,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  this.walk = value!;
-                                });
-                              } 
-                            ),
-                            Text(
-                              'Caminhada',
-                              style: GoogleFonts.poppins(
-                                fontSize: 15.sp,
-                                color: ProjectColors().title
-                              )
-                            ),
-                          ]
-                        )
-                      ),
-                      SizedBox(width: 10.w),
-                      SizedBox(
-                        width: 160.w,
-                        child: MyTextField().createTimeInput(
-                          timeInput: timeInput,
-                          myContext: context,
-                          hint: 'Hora'
-                        )
-                      )
-                    ]
-                  ),
+
                   Row(
                     children: <Widget>[
                       Column(
