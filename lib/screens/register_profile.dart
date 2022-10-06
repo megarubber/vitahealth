@@ -156,10 +156,6 @@ class RegisterProfileStatus extends State<RegisterProfile> {
   double globalMass = 0;
   double globalHeight = 0;
 
-  bool walk = false;
-  bool jump = false;
-  bool run = false;
-
   void updateBMIStatus([double mass = 10, double height = 10]) {
     globalMass = mass;
     globalHeight = height;
@@ -278,7 +274,7 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                   SizedBox(
                     width: 330.w,  
                     child: Button().createButton(
-                      message: 'Continuar',
+                      message: 'Salvar',
                       action: () {
                         Navigator.push(
                           context,
