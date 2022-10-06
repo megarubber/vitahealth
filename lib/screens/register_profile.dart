@@ -7,6 +7,9 @@ import 'package:vitahealth/widgets/my_checkbox.dart';
 import 'package:intl/intl.dart';
 import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/screens/home.dart';
+import 'package:vitahealth/globals.dart';
+import 'package:vitahealth/database.dart';
+import 'dart:core';
 
 class TrainWeek extends StatefulWidget {
   final String checkboxText;
@@ -156,6 +159,13 @@ class RegisterProfileStatus extends State<RegisterProfile> {
   double globalMass = 0;
   double globalHeight = 0;
 
+  var displayName = UserGlobals.sessionUser.toMap()['name'].toString();
+  
+  @override
+  void init() {
+    displayName.split(' ');
+  }
+
   void updateBMIStatus([double mass = 10, double height = 10]) {
     globalMass = mass;
     globalHeight = height;
@@ -194,7 +204,7 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                 children: <Widget>[
                   SizedBox(height: 20.h),
                   Text(
-                    'Olá, Usuário!',
+                    'Olá, ' + displayName[0],
                     style: GoogleFonts.poppins(
                       fontSize: 18.sp,
                       color: ProjectColors().title
