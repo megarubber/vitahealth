@@ -14,6 +14,7 @@ import 'package:vitahealth/screens/login.dart';
 import 'package:vitahealth/database.dart';
 import 'package:vitahealth/widgets/my_alert_dialog.dart';
 import 'package:vitahealth/utility.dart';
+import 'package:vitahealth/globals.dart';
 
 // dart packages
 import 'dart:io';
@@ -261,6 +262,9 @@ class RegisterState extends State<Register> {
 
     // Show all users
     //this.database.getAllUsers();
+
+    // Save session (global variable)
+    UserGlobals.sessionUser = user;
   }
 
   void returnToLogin(BuildContext context) {
