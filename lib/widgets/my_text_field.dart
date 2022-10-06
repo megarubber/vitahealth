@@ -102,11 +102,18 @@ class MyTextField {
     );
   }
 
-  Widget createTimeInput({required TextEditingController timeInput, required BuildContext myContext, required String hint, int colorMode = 0}) {
+  Widget createTimeInput({
+    required TextEditingController timeInput,
+    required BuildContext myContext,
+    required String hint,
+    int colorMode = 0,
+    bool active = true
+    }) {
     return TextField(
       controller: timeInput,
       decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       readOnly: true,
+      enabled: active,
       onTap: () async {
         TimeOfDay? pickedTime = await showTimePicker(
           context: myContext,
