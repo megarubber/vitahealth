@@ -7,11 +7,13 @@ class MyCheckbox {
   bool value;
   final String text;
   void Function(bool?) onChanged;
+  Color? checkboxColor;
 
   MyCheckbox({
     required this.value,
     required this.text,
-    required this.onChanged
+    required this.onChanged,
+    this.checkboxColor
   });
 
   Widget createSimpleCheckbox() {
@@ -37,7 +39,8 @@ class MyCheckbox {
       children: <Widget>[
         Checkbox(
           value: this.value,
-          onChanged: this.onChanged
+          onChanged: this.onChanged,
+          fillColor: MaterialStateProperty.all(this.checkboxColor)
         ),
         Text(
           this.text,

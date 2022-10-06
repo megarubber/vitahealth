@@ -18,6 +18,7 @@ class TrainWeek extends StatefulWidget {
 class _TrainWeekState extends State<TrainWeek> {
   bool checkboxValue = false;
   TextEditingController timeInput = TextEditingController();
+  Color statusCheckbox = ProjectColors().textFieldBlock;
 
   /*
   // not working :(
@@ -32,6 +33,22 @@ class _TrainWeekState extends State<TrainWeek> {
   };
   */
   List<bool> daysOfWeek = List<bool>.filled(7, false, growable: false);
+
+  dynamic testBlock(int index, bool? value) {
+    if(this.checkboxValue) {
+      setState(() {
+        this.daysOfWeek[index] = value!;
+        statusCheckbox = ProjectColors().textFieldBlock;
+      });
+      return;
+    } else {
+      setState(() { 
+        this.daysOfWeek[index] = false;
+        statusCheckbox = ProjectColors().textFieldWrong;
+      });
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +66,8 @@ class _TrainWeekState extends State<TrainWeek> {
                 onChanged: (bool? value) {
                   setState(() {
                     this.checkboxValue = value!;
+                    for(int i = 0; i < daysOfWeek.length; i++)
+                      testBlock(i, false);
                   });
                 }
               ).createSimpleCheckbox(),
@@ -59,7 +78,9 @@ class _TrainWeekState extends State<TrainWeek> {
               child: MyTextField().createTimeInput(
                 timeInput: this.timeInput,
                 myContext: context,
-                hint: 'Hora'
+                hint: 'Hora',
+                active: this.checkboxValue,
+                colorMode: this.checkboxValue ? 0 : 1
               )
             )
           ]
@@ -70,65 +91,44 @@ class _TrainWeekState extends State<TrainWeek> {
             MyCheckbox(
               text: 'D',
               value: this.daysOfWeek[0],
-              onChanged: (bool? value) {
-                setState(() {
-                  this.daysOfWeek[0] = value!;
-                });
-              }
+              onChanged: (bool? value) => testBlock(0, value!),
+              checkboxColor: statusCheckbox 
             ).createOneCharCheckbox(),
             MyCheckbox(
               text: 'S',
               value: this.daysOfWeek[1],
-              onChanged: (bool? value) {
-                setState(() {
-                  this.daysOfWeek[1] = value!;
-                });
-              }
+              onChanged: (bool? value) => testBlock(1, value!),
+              checkboxColor: statusCheckbox 
             ).createOneCharCheckbox(),
             MyCheckbox(
               text: 'T',
               value: this.daysOfWeek[2],
-              onChanged: (bool? value) {
-                setState(() {
-                  this.daysOfWeek[2] = value!;
-                });
-              }
+              onChanged: (bool? value) => testBlock(2, value!),
+              checkboxColor: statusCheckbox 
             ).createOneCharCheckbox(),
             MyCheckbox(
               text: 'Q',
               value: this.daysOfWeek[3],
-              onChanged: (bool? value) {
-                setState(() {
-                  this.daysOfWeek[3] = value!;
-                });
-              }
+              onChanged: (bool? value) => testBlock(3, value!),
+              checkboxColor: statusCheckbox 
             ).createOneCharCheckbox(),
             MyCheckbox(
               text: 'Q',
               value: this.daysOfWeek[4],
-              onChanged: (bool? value) {
-                setState(() {
-                  this.daysOfWeek[4] = value!;
-                });
-              }
+              onChanged: (bool? value) => testBlock(4, value!),
+              checkboxColor: statusCheckbox 
             ).createOneCharCheckbox(),
             MyCheckbox(
               text: 'S',
               value: this.daysOfWeek[5],
-              onChanged: (bool? value) {
-                setState(() {
-                  this.daysOfWeek[5] = value!;
-                });
-              }
+              onChanged: (bool? value) => testBlock(5, value!),
+              checkboxColor: statusCheckbox 
             ).createOneCharCheckbox(),
             MyCheckbox(
               text: 'S',
               value: this.daysOfWeek[6],
-              onChanged: (bool? value) {
-                setState(() {
-                  this.daysOfWeek[6] = value!;
-                });
-              }
+              onChanged: (bool? value) => testBlock(6, value!),
+              checkboxColor: statusCheckbox 
             ).createOneCharCheckbox(),
           ]
         )
