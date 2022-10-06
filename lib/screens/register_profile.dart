@@ -7,23 +7,17 @@ import 'package:vitahealth/widgets/my_checkbox.dart';
 import 'package:intl/intl.dart';
 
 class TrainWeek extends StatefulWidget {
-  final String text;
+  final String checkboxText;
+
+  TrainWeek({Key? key, required this.checkboxText}) : super(key: key);
 
   @override
   State<TrainWeek> createState() => _TrainWeekState();
 }
 
 class _TrainWeekState extends State<TrainWeek> {
-  bool checkBoxValue;
-  final String checkboxText;
-  TextController timeInput;
-  BuildContext context;
-
-  _TrainWeekState({
-    required this.timeInput,
-    required this.checkBox,
-    required this.timeInput
-  });
+  bool checkboxValue = false;
+  TextEditingController timeInput = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +29,10 @@ class _TrainWeekState extends State<TrainWeek> {
           padding: EdgeInsets.only(bottom: 30),
           child: MyCheckbox(
             value: this.checkboxValue,
-            text: this.text,
+            text: widget.checkboxText,
             onChanged: (bool? value) {
               setState(() {
-                this.checkBoxValue = value!;
+                this.checkboxValue = value!;
               });
             }
           ).createSimpleCheckbox(),
@@ -48,7 +42,7 @@ class _TrainWeekState extends State<TrainWeek> {
           width: 160.w,
           child: MyTextField().createTimeInput(
             timeInput: this.timeInput,
-            myContext: this.context,
+            myContext: context,
             hint: 'Hora'
           )
         )
@@ -187,7 +181,7 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                     textAlign: TextAlign.center
                   ),
                   SizedBox(height: 20.h),
-
+                  TrainWeek(checkboxText: 'Caminhada'),
                   Row(
                     children: <Widget>[
                       Column(
