@@ -19,32 +19,118 @@ class _TrainWeekState extends State<TrainWeek> {
   bool checkboxValue = false;
   TextEditingController timeInput = TextEditingController();
 
+  /*
+  // not working :(
+  Map<String, bool> daysOfWeek = {
+    'sunday' : false,
+    'monday' : false,
+    'tuesday' : false,
+    'wednesday' : false,
+    'thursday' : false,
+    'friday' : false,
+    'saturday' : false
+  };
+  */
+  List<bool> daysOfWeek = List<bool>.filled(7, false, growable: false);
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column( 
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(bottom: 30),
-          child: MyCheckbox(
-            value: this.checkboxValue,
-            text: widget.checkboxText,
-            onChanged: (bool? value) {
-              setState(() {
-                this.checkboxValue = value!;
-              });
-            }
-          ).createSimpleCheckbox(),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(bottom: 30),
+              child: MyCheckbox(
+                value: this.checkboxValue,
+                text: widget.checkboxText,
+                onChanged: (bool? value) {
+                  setState(() {
+                    this.checkboxValue = value!;
+                  });
+                }
+              ).createSimpleCheckbox(),
+            ),
+            SizedBox(width: 10.w),
+            SizedBox(
+              width: 160.w,
+              child: MyTextField().createTimeInput(
+                timeInput: this.timeInput,
+                myContext: context,
+                hint: 'Hora'
+              )
+            )
+          ]
         ),
-        SizedBox(width: 10.w),
-        SizedBox(
-          width: 160.w,
-          child: MyTextField().createTimeInput(
-            timeInput: this.timeInput,
-            myContext: context,
-            hint: 'Hora'
-          )
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            MyCheckbox(
+              text: 'D',
+              value: this.daysOfWeek[0],
+              onChanged: (bool? value) {
+                setState(() {
+                  this.daysOfWeek[0] = value!;
+                });
+              }
+            ).createOneCharCheckbox(),
+            MyCheckbox(
+              text: 'S',
+              value: this.daysOfWeek[1],
+              onChanged: (bool? value) {
+                setState(() {
+                  this.daysOfWeek[1] = value!;
+                });
+              }
+            ).createOneCharCheckbox(),
+            MyCheckbox(
+              text: 'T',
+              value: this.daysOfWeek[2],
+              onChanged: (bool? value) {
+                setState(() {
+                  this.daysOfWeek[2] = value!;
+                });
+              }
+            ).createOneCharCheckbox(),
+            MyCheckbox(
+              text: 'Q',
+              value: this.daysOfWeek[3],
+              onChanged: (bool? value) {
+                setState(() {
+                  this.daysOfWeek[3] = value!;
+                });
+              }
+            ).createOneCharCheckbox(),
+            MyCheckbox(
+              text: 'Q',
+              value: this.daysOfWeek[4],
+              onChanged: (bool? value) {
+                setState(() {
+                  this.daysOfWeek[4] = value!;
+                });
+              }
+            ).createOneCharCheckbox(),
+            MyCheckbox(
+              text: 'S',
+              value: this.daysOfWeek[5],
+              onChanged: (bool? value) {
+                setState(() {
+                  this.daysOfWeek[5] = value!;
+                });
+              }
+            ).createOneCharCheckbox(),
+            MyCheckbox(
+              text: 'S',
+              value: this.daysOfWeek[6],
+              onChanged: (bool? value) {
+                setState(() {
+                  this.daysOfWeek[6] = value!;
+                });
+              }
+            ).createOneCharCheckbox(),
+          ]
         )
       ]
     );
@@ -182,30 +268,6 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                   ),
                   SizedBox(height: 20.h),
                   TrainWeek(checkboxText: 'Caminhada'),
-                  Row(
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Checkbox(
-                            value: this.walk,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                this.walk = value!;
-                              });
-                            }
-                          ),
-                          Text(
-                            'D',
-                            style: GoogleFonts.poppins(
-                              fontSize: 15.sp,
-                              color: ProjectColors().title
-                            ),
-                            textAlign: TextAlign.center
-                          )
-                        ]
-                      )
-                    ]
-                  )
                 ]
               )
             )
