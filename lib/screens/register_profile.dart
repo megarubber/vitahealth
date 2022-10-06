@@ -5,6 +5,8 @@ import 'package:vitahealth/colors.dart';
 import 'package:vitahealth/widgets/my_text_field.dart';
 import 'package:vitahealth/widgets/my_checkbox.dart';
 import 'package:intl/intl.dart';
+import 'package:vitahealth/widgets/button.dart';
+import 'package:vitahealth/screens/home.dart';
 
 class TrainWeek extends StatefulWidget {
   final String checkboxText;
@@ -272,6 +274,22 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                   TrainWeek(checkboxText: 'Corrida'),
                   SizedBox(height: 30.h),
                   TrainWeek(checkboxText: 'Pular Corda'),
+                  SizedBox(height: 30.h),
+                  SizedBox(
+                    width: 330.w,  
+                    child: Button().createButton(
+                      message: 'Continuar',
+                      action: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Home()
+                          )
+                        );
+                      }
+                    )
+                  ),
+                  SizedBox(height: 30.h),
                 ]
               )
             )
