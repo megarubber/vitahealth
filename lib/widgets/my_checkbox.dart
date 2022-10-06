@@ -32,7 +32,7 @@ class MyCheckbox {
     );
   }
 
-  Widget createOnCharCheckbox() {
+  Widget createOneCharCheckbox() {
     return Column(
       children: <Widget>[
         Checkbox(
