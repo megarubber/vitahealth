@@ -266,8 +266,12 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                     ),
                     textAlign: TextAlign.center
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 30.h),
                   TrainWeek(checkboxText: 'Caminhada'),
+                  SizedBox(height: 30.h),
+                  TrainWeek(checkboxText: 'Corrida'),
+                  SizedBox(height: 30.h),
+                  TrainWeek(checkboxText: 'Pular Corda'),
                 ]
               )
             )
