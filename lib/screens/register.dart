@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 // project packages
 import 'package:vitahealth/widgets/my_text_field.dart';
@@ -211,7 +212,10 @@ class Register extends StatefulWidget {
   RegisterState createState() => RegisterState();
 }
 
+enum UploadImageState {idle, loading, done}
+
 class RegisterState extends State<Register> {
+
   File? profileImage;
   final formKey = GlobalKey<FormState>();
   final _pageController = PageController(initialPage: 0);
@@ -219,6 +223,8 @@ class RegisterState extends State<Register> {
   late MyDatabase database = MyDatabase(name: 'vitahealth');
   String imageString = '';
   
+  UploadImageState imgState = UploadImageState.idle;
+
   /*
   String test = '';
   
@@ -239,11 +245,19 @@ class RegisterState extends State<Register> {
   }
 
   Future<void> pickImage() async {
+    setState(() => imgState = UploadImageState.loading);
+
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
-    if(image == null) return;
+    if(image == null) {
+      setState(() => imgState = UploadImageState.idle);
+      return;
+    }
     final imageTemporary = File(image.path);
     imageString = Utility.base64String(imageTemporary.readAsBytesSync());
-    setState(() => profileImage = imageTemporary);
+    setState(() {
+      profileImage = imageTemporary;
+      imgState = UploadImageState.done;
+    });
   }
 
   void submitForm({required BuildContext context, required User user}) {
@@ -344,16 +358,22 @@ class RegisterState extends State<Register> {
                   InkWell(
                     onTap: () => pickImage(), 
                     child: Center(
-                      child: ClipRRect(
+                      child: imgState != UploadImageState.loading ? 
+                      ClipRRect(
                         borderRadius: BorderRadius.circular(60),
                         child: profileImage != null ? 
                         Image.file(profileImage!, width: 100.sp, height: 100.sp, fit: BoxFit.cover) :
                         /*
-						              Image.memory(
+                          Image.memory(
                           Base64Decoder().convert(test), 
                           width: 100.sp, height: 100.sp, fit: BoxFit.cover)
                         */
-						            Image.asset('assets/images/user_icon.png', width: 100.sp, height: 100.sp)
+                        Image.asset('assets/images/user_icon.png', width: 100.sp, height: 100.sp)
+                      ) 
+                      : 
+                      LoadingAnimationWidget.threeRotatingDots(
+                        color: ProjectColors().title,
+                        size: 100.sp
                       )
                     ),
                   ),
