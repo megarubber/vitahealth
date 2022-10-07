@@ -80,8 +80,15 @@ class MyTextField {
     );
   }
 
-  Widget createdateInput({required TextEditingController dateInput, required BuildContext myContext, required String hint, int colorMode = 0}) {
-    return TextField(
+  Widget createDateInput({
+    required TextEditingController dateInput, 
+    required BuildContext myContext, 
+    required String hint, 
+    int colorMode = 0,
+    Key? key,
+    String validatorText = ''}) {
+    return TextFormField(
+      key: key,
       controller: dateInput,
       decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       readOnly: true,
@@ -98,7 +105,12 @@ class MyTextField {
           //print(formattedDate);
           dateInput.text = formattedDate;
         } else dateInput.text = "";
-      }      
+      },
+      validator: (text) {
+        final regex = RegExp(r'\d{2}\/\d{2}\/\d{4}');
+        if(!regex.hasMatch(text ?? '')) return validatorText;
+        return null;
+      }
     );
   }
 
@@ -130,12 +142,22 @@ class MyTextField {
     );
   }
 
-  Widget createNumberField({required String hint, int colorMode = 0, TextEditingController? inputValue}) {
+  Widget createNumberField({
+    required String hint, 
+    int colorMode = 0, 
+    TextEditingController? inputValue,
+    String validatorText = ''
+    }) {
     return TextFormField(
       decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       keyboardType: TextInputType.number,
       onChanged: (String value) => changedValue!(value),
-      controller: inputValue
+      controller: inputValue,
+      validator: (text) {
+        final regex = RegExp(r'^[\d]+[,.]?$');
+        if(!regex.hasMatch(text ?? '')) return validatorText;
+        return null;
+      }
     );
   }
 }
