@@ -154,7 +154,7 @@ class MyTextField {
       onChanged: (String value) => changedValue!(value),
       controller: inputValue,
       validator: (text) {
-        final regex = RegExp(r'^[\d]+[,.]?$');
+        final regex = RegExp(r'^([0-9]*(\.[0-9]+)?(,[0-9]+)?)$');
         if(!regex.hasMatch(text ?? '')) return validatorText;
         return null;
       }
