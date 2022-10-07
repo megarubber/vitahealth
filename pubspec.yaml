@@ -42,6 +42,7 @@ dependencies:
   intl: ^0.17.0
   sqflite: any
   path: any
+  loading_animation_widget: any
 
 dev_dependencies:
   flutter_test:
