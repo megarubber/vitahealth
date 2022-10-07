@@ -23,7 +23,7 @@ class TrainWeek extends StatefulWidget {
 class _TrainWeekState extends State<TrainWeek> {
   bool checkboxValue = false;
   TextEditingController timeInput = TextEditingController();
-  Color statusCheckbox = ProjectColors().textFieldBlock;
+  Color statusCheckbox = ProjectColors().textFieldWrong;
 
   /*
   // not working :(
