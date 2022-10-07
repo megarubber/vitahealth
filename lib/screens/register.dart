@@ -15,6 +15,7 @@ import 'package:vitahealth/database.dart';
 import 'package:vitahealth/widgets/my_alert_dialog.dart';
 import 'package:vitahealth/utility.dart';
 import 'package:vitahealth/globals.dart';
+import 'package:vitahealth/screens/register_profile.dart';
 
 // dart packages
 import 'dart:io';
@@ -258,13 +259,22 @@ class RegisterState extends State<Register> {
       context: context,
       title: 'Confirmação',
       message: 'Registro feito com sucesso!'
-    ).showConfirmAlert();
+    ).showConfirmAlert(
+      execute: () {
+        // Show all users
+        //this.database.getAllUsers();
 
-    // Show all users
-    //this.database.getAllUsers();
+        // Save session (global variable)
+        UserGlobals.sessionUser = user;
 
-    // Save session (global variable)
-    UserGlobals.sessionUser = user;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RegisterProfile()
+          )
+        );
+      }
+    );
   }
 
   void returnToLogin(BuildContext context) {
