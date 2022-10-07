@@ -9,6 +9,7 @@ import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/screens/home.dart';
 import 'package:vitahealth/globals.dart';
 import 'package:vitahealth/database.dart';
+import 'package:vitahealth/widgets/my_alert_dialog.dart';
 import 'dart:core';
 
 class TrainWeek extends StatefulWidget {
@@ -150,7 +151,6 @@ class RegisterProfile extends StatefulWidget {
 class RegisterProfileStatus extends State<RegisterProfile> {
   // Pick the value from TextFields
   TextEditingController dateInput = TextEditingController();
-  TextEditingController timeInput = TextEditingController();
   TextEditingController massInput = TextEditingController();
   TextEditingController heightInput = TextEditingController();
   
@@ -158,30 +158,44 @@ class RegisterProfileStatus extends State<RegisterProfile> {
   
   double globalMass = 0;
   double globalHeight = 0;
-
+  double resultBMI = 0;
+  
+  // Globals Keys
+  final formKey = GlobalKey<FormState>();
+  final dateFieldKey = GlobalKey();
+  
   void updateBMIStatus([double mass = 10, double height = 10]) {
     globalMass = mass;
-    globalHeight = height;
+    globalHeight = height;    
 
-    double result = (mass/(height * height));
-    print(height * height);
+    var height_squared = height * height;
 
-    String baseMsg = 'Seu IMC é de: ' + result.toStringAsFixed(2);
-
-    if(result < 18.5)
-      baseMsg += ', o que indica MAGREZA!';
-    else if(result >= 18.5 && result < 25.0)
-      baseMsg += ', o que indica NORMAL!';
-    else if(result >= 25.0 && result < 30.0)
-      baseMsg += ', o que indica SOBREPESO!';
-    else if(result >= 30.0 && result < 40.0)
-      baseMsg += ', o que indica OBESIDADE!';
+    if(height_squared > 0)
+      resultBMI = (mass/height_squared);
     else
-      baseMsg += ', o que indica OBESIDADE GRAVE!';
+      resultBMI = 0;
+    
+    String baseMsg = 'Seu IMC é de: ' + resultBMI.toStringAsFixed(2);
+
+    if(resultBMI < 18.5)
+      baseMsg += ', o que indica MAGREZA!\n';
+    else if(resultBMI >= 18.5 && resultBMI < 25.0)
+      baseMsg += ', o que indica NORMAL!\n';
+    else if(resultBMI >= 25.0 && resultBMI < 30.0)
+      baseMsg += ', o que indica SOBREPESO!\n';
+    else if(resultBMI >= 30.0 && resultBMI < 40.0)
+      baseMsg += ', o que indica OBESIDADE!\n';
+    else
+      baseMsg += ', o que indica OBESIDADE GRAVE!\n';
     
     setState(() {
-      if(globalMass > 0 && globalHeight > 0)
-        bmiStatus = baseMsg;
+      // Detecting if is greater than zero or isn't divided by zero
+      if(resultBMI > 0) {
+        if(globalMass > 0 && globalHeight > 0)
+          bmiStatus = baseMsg;
+      }
+      else
+        bmiStatus = 'Ocorreu um problema ao calcular o IMC. Verifique novamente os valores inseridos.';
     });
   }
 
@@ -197,7 +211,7 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                 children: <Widget>[
                   SizedBox(height: 20.h),
                   Text(
-                    'Olá, ' + UserGlobals.getSeparatedName(0),
+                    'Olá, ' + UserGlobals.getSeparatedName(0) + '!',
                     style: GoogleFonts.poppins(
                       fontSize: 18.sp,
                       color: ProjectColors().title
@@ -222,32 +236,41 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                     textAlign: TextAlign.center
                   ),
                   SizedBox(height: 20.h),
-                  MyTextField().createdateInput(
-                    dateInput: dateInput,
-                    myContext: context,
-                    hint: 'Data de nascimento',
-                  ),
-                  SizedBox(height: 15.h),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 160.w,
-                        child: MyTextField(
-                          changedValue: (String value) {
-                            updateBMIStatus(double.parse(massInput.text), globalHeight);
-                          }
-                        ).createNumberField(hint: 'Peso (kg)', inputValue: massInput)
-                      ),
-                      SizedBox(width: 10.w),
-                      SizedBox(
-                        width: 160.w,
-                        child: MyTextField(
-                          changedValue: (String value) { 
-                            updateBMIStatus(globalMass, double.parse(heightInput.text));
-                          }
-                        ).createNumberField(hint: 'Altura (m)', inputValue: heightInput)
-                      ),
-                    ]
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: <Widget>[
+                        MyTextField().createDateInput(
+                          key: dateFieldKey,
+                          dateInput: dateInput,
+                          myContext: context,
+                          hint: 'Data de nascimento',
+                          validatorText: 'É necessário colocar a data de nascimento'
+                        ),
+                        SizedBox(height: 15.h),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: 160.w,
+                              child: MyTextField(
+                                changedValue: (String value) {
+                                  updateBMIStatus(double.parse(massInput.text), globalHeight);
+                                }
+                              ).createNumberField(hint: 'Peso (kg)', inputValue: massInput, validatorText: 'Insira o peso')
+                            ),
+                            SizedBox(width: 10.w),
+                            SizedBox(
+                              width: 160.w,
+                              child: MyTextField(
+                                changedValue: (String value) { 
+                                  updateBMIStatus(globalMass, double.parse(heightInput.text));
+                                }
+                              ).createNumberField(hint: 'Altura (m)', inputValue: heightInput, validatorText: 'Insira a altura')
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: 20.h),
                   Text(
@@ -279,12 +302,29 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                     child: Button().createButton(
                       message: 'Salvar',
                       action: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home()
-                          )
-                        );
+                        if(formKey.currentState!.validate()) {
+                          if(resultBMI > 0) {  
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home()
+                              )
+                            );
+                          } else {
+                            MyAlertDialog(
+                              title: 'Erro!',
+                              message: 'Ocorreu um problema ao calcular o IMC. Verifique novamente os valores inseridos.',
+                              context: context
+                            ).showConfirmAlert(
+                              execute: () {
+                                Scrollable.ensureVisible(dateFieldKey.currentContext!);
+                                Navigator.of(context).pop();
+                              }
+                            );
+                          }
+                        } else {
+                          Scrollable.ensureVisible(dateFieldKey.currentContext!);
+                        }
                       }
                     )
                   ),
