@@ -159,13 +159,6 @@ class RegisterProfileStatus extends State<RegisterProfile> {
   double globalMass = 0;
   double globalHeight = 0;
 
-  var displayName = UserGlobals.sessionUser.toMap()['name'].toString();
-  
-  @override
-  void init() {
-    displayName.split(' ');
-  }
-
   void updateBMIStatus([double mass = 10, double height = 10]) {
     globalMass = mass;
     globalHeight = height;
@@ -204,7 +197,7 @@ class RegisterProfileStatus extends State<RegisterProfile> {
                 children: <Widget>[
                   SizedBox(height: 20.h),
                   Text(
-                    'Olá, ' + displayName[0],
+                    'Olá, ' + UserGlobals.getSeparatedName(0),
                     style: GoogleFonts.poppins(
                       fontSize: 18.sp,
                       color: ProjectColors().title
