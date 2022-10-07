@@ -4,8 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vitahealth/colors.dart';
 import 'package:vitahealth/globals.dart';
 import 'package:vitahealth/utility.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Home extends StatefulWidget {
+  @override
   HomeState createState() => HomeState();
 }
 
@@ -93,6 +95,13 @@ class MyDrawerWidget extends StatelessWidget {
                       Utility.dataFromBase64String(
                         UserGlobals.getRawPictureString(),
                       ),
+                      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                        if(wasSynchronouslyLoaded) return child;
+                        return LoadingAnimationWidget.threeRotatingDots(
+                          color: ProjectColors().title,
+                          size: 80.sp
+                        );
+                      },
                       width: 80.sp, height: 80.sp,
                       fit: BoxFit.cover
                     )
