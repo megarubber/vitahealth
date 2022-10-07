@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vitahealth/colors.dart';
+import 'package:vitahealth/globals.dart';
+import 'package:vitahealth/utility.dart';
 
 class Home extends StatefulWidget {
   HomeState createState() => HomeState();
@@ -77,6 +79,51 @@ class MyDrawerWidget extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
+          Container(
+            color: ProjectColors().backgroundV1,
+            child: Padding(
+              padding: EdgeInsets.all(20.sp),
+              child: Row(
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(60),
+                    child: UserGlobals.getUsername() == 'vitahealth_user' ? 
+                    Image.asset('assets/images/user_icon.png', width: 80.sp, height: 80.sp) :
+                    Image.memory(
+                      Utility.dataFromBase64String(
+                        UserGlobals.getRawPictureString(),
+                      ),
+                      width: 80.sp, height: 80.sp,
+                      fit: BoxFit.cover
+                    )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Column(
+                      children: <Widget>[  
+                        Text(
+                          UserGlobals.getSeparatedName(0) + ' ' + UserGlobals.getSeparatedName(1),
+                          style: GoogleFonts.poppins(
+                            fontSize: 10.sp,
+                            color: ProjectColors().title
+                          ),
+                          textAlign: TextAlign.center
+                        ),
+                        Text(
+                          UserGlobals.getEmail(),
+                          style: GoogleFonts.poppins(
+                            fontSize: 10.sp,
+                            color: ProjectColors().title
+                          ),
+                          textAlign: TextAlign.center
+                        ),
+                      ]
+                    )
+                  )
+                ]
+              ),
+            ),
+          ),
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Home'),
