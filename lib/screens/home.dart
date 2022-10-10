@@ -5,6 +5,7 @@ import 'package:vitahealth/colors.dart';
 import 'package:vitahealth/globals.dart';
 import 'package:vitahealth/utility.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'dart:io';
 
 class Home extends StatefulWidget {
   @override
@@ -75,7 +76,16 @@ class HomeState extends State<Home> {
 }
 
 class MyDrawerWidget extends StatelessWidget {
-  const MyDrawerWidget({Key? key}) : super(key: key);
+  MyDrawerWidget({Key? key}) : super(key: key);
+  
+  Image profileImage = Image.memory(
+    Utility.dataFromBase64String(
+      UserGlobals.getRawPictureString(),
+    ),
+    width: 80.sp, height: 80.sp,
+    fit: BoxFit.cover
+  );
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -84,32 +94,19 @@ class MyDrawerWidget extends StatelessWidget {
           Container(
             color: ProjectColors().backgroundV1,
             child: Padding(
-              padding: EdgeInsets.all(20.sp),
+              padding: EdgeInsets.only(top: 20.sp, bottom: 20.sp, left: 5.sp),
               child: Row(
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(60),
                     child: UserGlobals.getUsername() == 'vitahealth_user' ? 
                     Image.asset('assets/images/user_icon.png', width: 80.sp, height: 80.sp) :
-                    Image.memory(
-                      Utility.dataFromBase64String(
-                        UserGlobals.getRawPictureString(),
-                      ),
-                      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                        if(wasSynchronouslyLoaded) return child;
-                        return LoadingAnimationWidget.threeRotatingDots(
-                          color: ProjectColors().title,
-                          size: 80.sp
-                        );
-                      },
-                      width: 80.sp, height: 80.sp,
-                      fit: BoxFit.cover
-                    )
+                    profileImage
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding: EdgeInsets.only(left: 10.sp),
                     child: Column(
-                      children: <Widget>[  
+                      children: <Widget>[
                         Text(
                           UserGlobals.getSeparatedName(0) + ' ' + UserGlobals.getSeparatedName(1),
                           style: GoogleFonts.poppins(
