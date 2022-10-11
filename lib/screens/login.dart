@@ -47,11 +47,16 @@ class LoginState extends State<Login> {
 
   void accessLogin() {
     this.database.getUserByEmail(emailController.text).then((user) => UserGlobals.sessionUser = user);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Home()
-      )
+    Timer(
+      const Duration(seconds: 5),
+      () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Home()
+          )
+        );
+      }
     );
   }
 
