@@ -10,6 +10,7 @@ import 'dart:async';
 import 'package:vitahealth/screens/register.dart';
 import 'package:vitahealth/screens/home.dart';
 import 'package:vitahealth/database.dart';
+import 'package:vitahealth/globals.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -42,6 +43,16 @@ class LoginState extends State<Login> {
   void dispose() {
     database.dispose();
     super.dispose();
+  }
+
+  void accessLogin() {
+    this.database.getUserByEmail(emailController.text).then((user) => UserGlobals.sessionUser = user);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Home()
+      )
+    );
   }
 
   void resetLoginPage() {
@@ -156,14 +167,8 @@ class LoginState extends State<Login> {
                                 emailController.text, 'password').then((value) {
                                   password = value.toString();
                                   if(value != null) {  
-                                    if(password == passwordController.text) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => Home()
-                                        )
-                                      );
-                                    } else {
+                                    if(password == passwordController.text) accessLogin();
+                                    else {
                                       setState(() {
                                         _passwordErrorText = 'Senha não encontrada. Digite outra!';
                                         _emailErrorText = null;
