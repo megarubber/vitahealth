@@ -15,6 +15,14 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
+  /*
+  @override
+  void initState() {
+    print(UserGlobals.getRawPictureString());
+    super.initState();
+  }
+  */
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
