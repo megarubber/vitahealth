@@ -8,6 +8,7 @@ import 'package:vitahealth/widgets/button.dart';
 import 'package:vitahealth/widgets/my_toast.dart';
 import 'dart:async';
 import 'package:vitahealth/screens/register.dart';
+import 'package:vitahealth/screens/home.dart';
 import 'package:vitahealth/database.dart';
 
 class Login extends StatefulWidget {
@@ -27,6 +28,15 @@ class LoginState extends State<Login> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+ 
+  String? _passwordErrorText;
+  String? _emailErrorText;
+
+  @override
+  void initState() {
+    resetLoginPage();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -34,7 +44,15 @@ class LoginState extends State<Login> {
     super.dispose();
   }
 
+  void resetLoginPage() {
+    _passwordErrorText = null;
+    _emailErrorText = null;
+    emailController.text = '';
+    passwordController.text = '';
+  }
+
   void wrongLogin() {
+    setState(() { });
     loginButtonPressed++;
     if(loginButtonPressed < maxTries) MyToast().spawnToast(message: "Usuário/Senha inválidos!");
     else {
@@ -43,7 +61,9 @@ class LoginState extends State<Login> {
         Timer(
           const Duration(seconds: waitAfterTries),
           () {
-            setState((){ loginButtonPressed = 0; });
+            setState((){ 
+              loginButtonPressed = 0; 
+            });
           }
         );
       }
@@ -102,7 +122,10 @@ class LoginState extends State<Login> {
                           colorMode: loginButtonPressed >= maxTries ? 1 : 0,
                           active: blockTextInput(),
                           validatorText: "E-mail inválido!",
-                          controller: emailController
+                          controller: emailController,
+                          exp: r'^[a-z]{1}[A-Za-z0-9_.]{6,}@[a-z]{3,}\.com(\.br)?$',
+                          keyboard: TextInputType.emailAddress,
+                          errorText: _emailErrorText
                         ),
                       ),
                       SizedBox(height: 16.h),
@@ -115,7 +138,9 @@ class LoginState extends State<Login> {
                           hide: true,
                           active: blockTextInput(),
                           validatorText: "Senha inválida!",
-                          controller: passwordController
+                          controller: passwordController,
+                          exp: r'^(?=.*\d.*\d)(?=.*[a-z])(?=.*[A-Z]).[A-Za-z0-9_.]{8,}$',
+                          errorText: _passwordErrorText
                         ),
                       ),
                       SizedBox(height: 20.h),
@@ -123,19 +148,37 @@ class LoginState extends State<Login> {
                         width: 330.w,
                         child: Button().createButton(
                           message: 'Acessar', 
-                          action: () => setState(() {
+                          action: () {
+                            //this.database.getAllUsers(printUsers: true);
                             if(formKey.currentState!.validate()) {
                               String password = '';
                               this.database.getSpecificAttributeByEmail(
                                 emailController.text, 'password').then((value) {
                                   password = value.toString();
+                                  if(value != null) {  
+                                    if(password == passwordController.text) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Home()
+                                        )
+                                      );
+                                    } else {
+                                      setState(() {
+                                        _passwordErrorText = 'Senha não encontrada. Digite outra!';
+                                        _emailErrorText = null;
+                                      });
+                                    }
+                                  } else {
+                                    setState(() {
+                                      _passwordErrorText = 'Senha não encontrada. Digite outra!';
+                                      _emailErrorText = 'Email não encontrado. Digite outro!';
+                                    });
+                                  }
                                 }
                               );
-                              print(password);
-                            } else {
-                              wrongLogin();
-                            }
-                          })
+                            } else wrongLogin();
+                          }
                         )
                       ),
                       SizedBox(height: 20.h),
