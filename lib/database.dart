@@ -134,7 +134,20 @@ class MyDatabase {
       return null;
     }
   }
-  
+
+  Future<User> getUserByEmail(String email) async {
+    final Database db = await database;
+
+    final List<Map<String, Object?>> queryResult = await db.query(
+      'user',
+      where: 'email = ?',
+      whereArgs: [email]
+    );
+    
+    final List<User> singleUser = queryResult.map((e) => User.fromMap(e)).toList();
+    return singleUser[0];
+  }
+
   Future dispose() async {
     final db = await database;
     db.close();
