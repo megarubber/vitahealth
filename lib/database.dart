@@ -110,10 +110,10 @@ class MyDatabase {
     return user.toMap()[column];
   }
 
-  Future<List<User>> getAllUsers() async {
+  Future<List<User>> getAllUsers({bool printUsers = false}) async {
     final Database db = await database;
     final List<Map<String, Object?>> queryResult = await db.query('user');
-    //queryResult.forEach((row) => print(row));
+    if(printUsers) queryResult.forEach((row) => print(row));
     return queryResult.map((user) => User.fromMap(user)).toList();
   }
 
@@ -127,8 +127,12 @@ class MyDatabase {
     );
     
     final List<User> singleUser = queryResult.map((e) => User.fromMap(e)).toList();
-    final user = singleUser[0];
-    return user.toMap()[column];
+    try {
+      final user = singleUser[0];
+      return user.toMap()[column];
+    } catch(e) {
+      return null;
+    }
   }
   
   Future dispose() async {
