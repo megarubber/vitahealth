@@ -12,7 +12,7 @@ class MyTextField {
     this.changedValue
   });
 
-  InputDecoration defaultDecoration({required int colorMode, required String hint}) {
+  InputDecoration defaultDecoration({required int colorMode, required String hint, String? errorText}) {
     return InputDecoration(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.r),
@@ -31,6 +31,7 @@ class MyTextField {
         fontSize: 14.sp,
         fontWeight: FontWeight.w400,
       ),
+      errorText: errorText,
       errorStyle: GoogleFonts.poppins(
         fontSize: 10.sp,
         fontWeight: FontWeight.w400
@@ -61,10 +62,11 @@ class MyTextField {
   required String validatorText,
   TextInputType keyboard = TextInputType.text,
   String? formatter,
-  TextEditingController? controller}) {
+  TextEditingController? controller,
+  String? errorText}) {
     return TextFormField(
       controller: controller,
-      decoration: defaultDecoration(colorMode: colorMode, hint: hint),
+      decoration: defaultDecoration(colorMode: colorMode, hint: hint, errorText: errorText),
       //autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: hide,
       enableSuggestions: !hide,
