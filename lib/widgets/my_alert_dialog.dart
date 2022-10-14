@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:flutter/services.dart';
 
 class MyAlertDialog {
   final String title;
@@ -56,5 +58,34 @@ class MyAlertDialog {
         );
       }
     );
-  } 
+  }
+
+  Future<bool> closeApp() async {
+    return await showDialog(
+      context: this.context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(this.title),
+          content: Text(this.message),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Sim"),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                /*
+                if(Platform.isAndroid) SystemNavigator.pop();
+                else if(Platform.isIOS) exit(0);
+                */
+                exit(0);
+              }
+            ),
+            TextButton(
+              child: Text("Não"),
+              onPressed: () => Navigator.of(context).pop(false)
+            )
+          ]
+        );
+      }
+    ) ?? false;   
+  }
 }
