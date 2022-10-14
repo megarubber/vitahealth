@@ -33,7 +33,7 @@ Map<String, TextEditingController> myTextFieldControllers = {
 }; 
 
 class PageOne extends StatelessWidget {
-  final int spaceBetween;
+  final double spaceBetween;
   
   PageOne({
     Key? key,
@@ -120,7 +120,7 @@ class PageOne extends StatelessWidget {
 }
 
 class PageTwo extends StatelessWidget {
-  final int spaceBetween;
+  final double spaceBetween;
 
   PageTwo({
     Key? key,
@@ -318,8 +318,8 @@ class RegisterState extends State<Register> {
   
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
+    
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: ProjectColors().backgroundV1,
       resizeToAvoidBottomInset: true,
@@ -378,14 +378,14 @@ class RegisterState extends State<Register> {
                     ),
                   ),
                   Container(
-                    height: screenHeight - 300, 
-                    width: screenWidth,
+                    height: size.height * 0.5, 
+                    width: size.width,
                     child: PageView(
                       physics: NeverScrollableScrollPhysics(),
                       controller: _pageController,
                       children: <Widget>[
-                        PageOne(spaceBetween: 40),
-                        PageTwo(spaceBetween: 40),
+                        PageOne(spaceBetween: 15.h),
+                        PageTwo(spaceBetween: 15.h),
                       ]
                     )
                   ),
