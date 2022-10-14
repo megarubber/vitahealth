@@ -5,6 +5,7 @@ import 'package:vitahealth/colors.dart';
 import 'package:vitahealth/globals.dart';
 import 'package:vitahealth/utility.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:vitahealth/widgets/my_alert_dialog.dart';
 import 'dart:io';
 
 class Home extends StatefulWidget {
@@ -25,60 +26,67 @@ class HomeState extends State<Home> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _key,
-      backgroundColor: ProjectColors().backgroundV1,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.format_list_bulleted
-          ),
-          onPressed: () => _key.currentState!.openDrawer()
-        ),
-        actions: <Widget>[
-          IconButton(
+    return WillPopScope( 
+      child: Scaffold(
+        key: _key,
+        backgroundColor: ProjectColors().backgroundV1,
+        appBar: AppBar(
+          leading: IconButton(
             icon: Icon(
-              Icons.workspaces,
-              color: ProjectColors().appBarForeground
+              Icons.format_list_bulleted
             ),
-            onPressed: () => null
-          )
-        ],
-        backgroundColor: ProjectColors().appBarBackground,
-        foregroundColor: ProjectColors().appBarForeground,
-        elevation: 0
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: 200.sp,
-                height: 150.sp,
-                child: Image.asset('assets/images/logo_RGB.png')
+            onPressed: () => _key.currentState!.openDrawer()
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.workspaces,
+                color: ProjectColors().appBarForeground
               ),
-              Text(
-                "Para melhorar o bem-estar e manter o corpo das pessoas mais saudáveis, "
-                "a startup IANES desenvolveu o aplicativo VitaHealth que permite seus "
-                "usuários obter e monitorar as informações corporais, como também planerjar, "
-                "definir metas e receber notificações sobre as atividades físicas. Para garantir "
-                "a acessibilidade do seu aplicativo, a startup IANES decidiu criar um projeto "
-                "para melhorar a usabilidade do aplicativo para todos os seus usuários, incluindo "
-                "aqueles com restrições de visão, daltonismo, dificuldades auditivas, comprometimento " 
-                "da coordenação motora, deficiências cognitivas e muitas outras deficiências.",
-                style: GoogleFonts.poppins(
-                  fontSize: 14.sp,
-                  color: ProjectColors().title
+              onPressed: () => null
+            )
+          ],
+          backgroundColor: ProjectColors().appBarBackground,
+          foregroundColor: ProjectColors().appBarForeground,
+          elevation: 0
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 200.sp,
+                  height: 150.sp,
+                  child: Image.asset('assets/images/logo_RGB.png')
                 ),
-                textAlign: TextAlign.center,
-              )
-            ]
-          )
-        )        
+                Text(
+                  "Para melhorar o bem-estar e manter o corpo das pessoas mais saudáveis, "
+                  "a startup IANES desenvolveu o aplicativo VitaHealth que permite seus "
+                  "usuários obter e monitorar as informações corporais, como também planerjar, "
+                  "definir metas e receber notificações sobre as atividades físicas. Para garantir "
+                  "a acessibilidade do seu aplicativo, a startup IANES decidiu criar um projeto "
+                  "para melhorar a usabilidade do aplicativo para todos os seus usuários, incluindo "
+                  "aqueles com restrições de visão, daltonismo, dificuldades auditivas, comprometimento " 
+                  "da coordenação motora, deficiências cognitivas e muitas outras deficiências.",
+                  style: GoogleFonts.poppins(
+                    fontSize: 14.sp,
+                    color: ProjectColors().title
+                  ),
+                  textAlign: TextAlign.center,
+                )
+              ]
+            )
+          )        
+        ),
+        drawer: MyDrawerWidget()
       ),
-      drawer: MyDrawerWidget()
+      onWillPop: () => MyAlertDialog(
+        context: context,
+        title: 'Alerta',
+        message: 'Você realmente deseja fechar o aplicativo?'
+        ).closeApp()
     );
   }
 }
