@@ -67,6 +67,23 @@ class LoginState extends State<Login> {
     passwordController.text = '';
   }
 
+  Route _accessRegister() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => Register(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      }
+    );
+  }
+
   void wrongLogin() {
     setState(() { });
     loginButtonPressed++;
@@ -101,6 +118,9 @@ class LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
@@ -108,8 +128,8 @@ class LoginState extends State<Login> {
         child: SingleChildScrollView(
           child: Stack(
             children: [
-              const Circle().createCircle(diameter: 500.0, x: 200.0, y: -200.0),
-              const Circle().createCircle(diameter: 500.0, x: -200.0, y: 500.0),
+              const Circle().createCircle(diameter: 500.0, x: 200.0, y: -size.height * 0.5),
+              const Circle().createCircle(diameter: 500.0, x: -200.0, y: size.height * 0.6),
               Center(
                 child: Form(
                   key: formKey,
@@ -197,12 +217,7 @@ class LoginState extends State<Login> {
                         child: Button().createButton(
                           message: 'Cadastre-se', 
                           action: () { 
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Register()
-                              )
-                            );
+                            Navigator.of(context).push(_accessRegister());
                           },
                           enableButton: blockTextInput()
                         )
