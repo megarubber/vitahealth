@@ -11,6 +11,7 @@ import 'package:vitahealth/screens/register.dart';
 import 'package:vitahealth/screens/home.dart';
 import 'package:vitahealth/database.dart';
 import 'package:vitahealth/globals.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -33,6 +34,8 @@ class LoginState extends State<Login> {
   String? _passwordErrorText;
   String? _emailErrorText;
 
+  bool _accessed = false;
+
   @override
   void initState() {
     resetLoginPage();
@@ -47,8 +50,9 @@ class LoginState extends State<Login> {
 
   void accessLogin() {
     this.database.getUserByEmail(emailController.text).then((user) => UserGlobals.sessionUser = user);
+    setState(() => _accessed = true);
     Timer(
-      const Duration(seconds: 5),
+      const Duration(seconds: 10),
       () {
         Navigator.push(
           context,
@@ -182,7 +186,12 @@ class LoginState extends State<Login> {
                       SizedBox(height: 20.h),
                       SizedBox(
                         width: 330.w,
-                        child: Button().createButton(
+                        child: _accessed ? 
+                        LoadingAnimationWidget.threeRotatingDots(
+                          color: ProjectColors().buttonBackground,
+                          size: 54.sp
+                        ) :
+                        Button().createButton(
                           message: 'Acessar', 
                           action: () {
                             //this.database.getAllUsers(printUsers: true);
@@ -217,7 +226,8 @@ class LoginState extends State<Login> {
                         child: Button().createButton(
                           message: 'Cadastre-se', 
                           action: () { 
-                            Navigator.of(context).push(_accessRegister());
+                            if(_accessed) return null;
+                            else Navigator.of(context).push(_accessRegister());
                           },
                           enableButton: blockTextInput()
                         )
