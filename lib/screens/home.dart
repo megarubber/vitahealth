@@ -110,7 +110,7 @@ class MyDrawerWidget extends StatelessWidget {
           Container(
             color: ProjectColors().backgroundV1,
             child: Padding(
-              padding: EdgeInsets.only(top: 20.sp, bottom: 20.sp, left: 5.sp),
+              padding: EdgeInsets.all(10.sp),
               child: Row(
                 children: <Widget>[
                   ClipRRect(
