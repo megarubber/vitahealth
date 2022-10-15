@@ -12,7 +12,7 @@ class MyTextField {
     this.changedValue
   });
 
-  InputDecoration defaultDecoration({required int colorMode, required String hint}) {
+  InputDecoration defaultDecoration({required int colorMode, required String hint, String? errorText}) {
     return InputDecoration(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.r),
@@ -31,6 +31,7 @@ class MyTextField {
         fontSize: 14.sp,
         fontWeight: FontWeight.w400,
       ),
+      errorText: errorText,
       errorStyle: GoogleFonts.poppins(
         fontSize: 10.sp,
         fontWeight: FontWeight.w400
@@ -61,10 +62,11 @@ class MyTextField {
   required String validatorText,
   TextInputType keyboard = TextInputType.text,
   String? formatter,
-  TextEditingController? controller}) {
+  TextEditingController? controller,
+  String? errorText}) {
     return TextFormField(
       controller: controller,
-      decoration: defaultDecoration(colorMode: colorMode, hint: hint),
+      decoration: defaultDecoration(colorMode: colorMode, hint: hint, errorText: errorText),
       //autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: hide,
       enableSuggestions: !hide,
@@ -80,8 +82,15 @@ class MyTextField {
     );
   }
 
-  Widget createdateInput({required TextEditingController dateInput, required BuildContext myContext, required String hint, int colorMode = 0}) {
-    return TextField(
+  Widget createDateInput({
+    required TextEditingController dateInput, 
+    required BuildContext myContext, 
+    required String hint, 
+    int colorMode = 0,
+    Key? key,
+    String validatorText = ''}) {
+    return TextFormField(
+      key: key,
       controller: dateInput,
       decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       readOnly: true,
@@ -98,16 +107,59 @@ class MyTextField {
           //print(formattedDate);
           dateInput.text = formattedDate;
         } else dateInput.text = "";
-      }      
+      },
+      validator: (text) {
+        final regex = RegExp(r'\d{2}\/\d{2}\/\d{4}');
+        if(!regex.hasMatch(text ?? '')) return validatorText;
+        return null;
+      }
     );
   }
 
-  Widget createNumberField({required String hint, int colorMode = 0, TextEditingController? inputValue}) {
+  Widget createTimeInput({
+    required TextEditingController timeInput,
+    required BuildContext myContext,
+    required String hint,
+    int colorMode = 0,
+    bool active = true
+    }) {
+    return TextField(
+      controller: timeInput,
+      decoration: defaultDecoration(colorMode: colorMode, hint: hint),
+      readOnly: true,
+      enabled: active,
+      onTap: () async {
+        TimeOfDay? pickedTime = await showTimePicker(
+          context: myContext,
+          initialTime: TimeOfDay.now(),
+        );
+        if(pickedTime != null) {
+          String formattedTime = MaterialLocalizations.of(myContext).formatTimeOfDay(
+            pickedTime,
+            alwaysUse24HourFormat: true
+          );
+          timeInput.text = formattedTime;
+        } else timeInput.text = "";
+      }
+    );
+  }
+
+  Widget createNumberField({
+    required String hint, 
+    int colorMode = 0, 
+    TextEditingController? inputValue,
+    String validatorText = ''
+    }) {
     return TextFormField(
       decoration: defaultDecoration(colorMode: colorMode, hint: hint),
       keyboardType: TextInputType.number,
       onChanged: (String value) => changedValue!(value),
-      controller: inputValue
+      controller: inputValue,
+      validator: (text) {
+        final regex = RegExp(r'^([0-9]*(\.[0-9]+)?(,[0-9]+)?)$');
+        if(!regex.hasMatch(text ?? '')) return validatorText;
+        return null;
+      }
     );
   }
 }

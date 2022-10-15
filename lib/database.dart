@@ -110,11 +110,42 @@ class MyDatabase {
     return user.toMap()[column];
   }
 
-  Future<List<User>> getAllUsers() async {
+  Future<List<User>> getAllUsers({bool printUsers = false}) async {
     final Database db = await database;
     final List<Map<String, Object?>> queryResult = await db.query('user');
-    //queryResult.forEach((row) => print(row));
+    if(printUsers) queryResult.forEach((row) => print(row));
     return queryResult.map((user) => User.fromMap(user)).toList();
+  }
+
+  Future<Object?> getSpecificAttributeByEmail(String email, String column) async {
+    final Database db = await database;
+
+    final List<Map<String, Object?>> queryResult = await db.query(
+      'user',
+      where: 'email = ?',
+      whereArgs: [email]
+    );
+    
+    final List<User> singleUser = queryResult.map((e) => User.fromMap(e)).toList();
+    try {
+      final user = singleUser[0];
+      return user.toMap()[column];
+    } catch(e) {
+      return null;
+    }
+  }
+
+  Future<User> getUserByEmail(String email) async {
+    final Database db = await database;
+
+    final List<Map<String, Object?>> queryResult = await db.query(
+      'user',
+      where: 'email = ?',
+      whereArgs: [email]
+    );
+    
+    final List<User> singleUser = queryResult.map((e) => User.fromMap(e)).toList();
+    return singleUser[0];
   }
 
   Future dispose() async {

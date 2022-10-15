@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 // project packages
 import 'package:vitahealth/widgets/my_text_field.dart';
@@ -14,6 +15,8 @@ import 'package:vitahealth/screens/login.dart';
 import 'package:vitahealth/database.dart';
 import 'package:vitahealth/widgets/my_alert_dialog.dart';
 import 'package:vitahealth/utility.dart';
+import 'package:vitahealth/globals.dart';
+import 'package:vitahealth/screens/register_profile.dart';
 
 // dart packages
 import 'dart:io';
@@ -30,7 +33,7 @@ Map<String, TextEditingController> myTextFieldControllers = {
 }; 
 
 class PageOne extends StatelessWidget {
-  final int spaceBetween;
+  final double spaceBetween;
   
   PageOne({
     Key? key,
@@ -117,7 +120,7 @@ class PageOne extends StatelessWidget {
 }
 
 class PageTwo extends StatelessWidget {
-  final int spaceBetween;
+  final double spaceBetween;
 
   PageTwo({
     Key? key,
@@ -209,7 +212,10 @@ class Register extends StatefulWidget {
   RegisterState createState() => RegisterState();
 }
 
+enum UploadImageState {idle, loading, done}
+
 class RegisterState extends State<Register> {
+
   File? profileImage;
   final formKey = GlobalKey<FormState>();
   final _pageController = PageController(initialPage: 0);
@@ -217,6 +223,8 @@ class RegisterState extends State<Register> {
   late MyDatabase database = MyDatabase(name: 'vitahealth');
   String imageString = '';
   
+  UploadImageState imgState = UploadImageState.idle;
+
   /*
   String test = '';
   
@@ -237,11 +245,19 @@ class RegisterState extends State<Register> {
   }
 
   Future<void> pickImage() async {
+    setState(() => imgState = UploadImageState.loading);
+
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
-    if(image == null) return;
+    if(image == null) {
+      setState(() => imgState = UploadImageState.idle);
+      return;
+    }
     final imageTemporary = File(image.path);
     imageString = Utility.base64String(imageTemporary.readAsBytesSync());
-    setState(() => profileImage = imageTemporary);
+    setState(() {
+      profileImage = imageTemporary;
+      imgState = UploadImageState.done;
+    });
   }
 
   void submitForm({required BuildContext context, required User user}) {
@@ -257,10 +273,22 @@ class RegisterState extends State<Register> {
       context: context,
       title: 'Confirmação',
       message: 'Registro feito com sucesso!'
-    ).showConfirmAlert();
+    ).showConfirmAlert(
+      execute: () {
+        // Show all users
+        //this.database.getAllUsers();
 
-    // Show all users
-    //this.database.getAllUsers();
+        // Save session (global variable)
+        UserGlobals.sessionUser = user;
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RegisterProfile()
+          )
+        );
+      }
+    );
   }
 
   void returnToLogin(BuildContext context) {
@@ -290,8 +318,8 @@ class RegisterState extends State<Register> {
   
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
+    
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: ProjectColors().backgroundV1,
       resizeToAvoidBottomInset: true,
@@ -330,28 +358,34 @@ class RegisterState extends State<Register> {
                   InkWell(
                     onTap: () => pickImage(), 
                     child: Center(
-                      child: ClipRRect(
+                      child: imgState != UploadImageState.loading ? 
+                      ClipRRect(
                         borderRadius: BorderRadius.circular(60),
                         child: profileImage != null ? 
                         Image.file(profileImage!, width: 100.sp, height: 100.sp, fit: BoxFit.cover) :
                         /*
-						Image.memory(
+                          Image.memory(
                           Base64Decoder().convert(test), 
                           width: 100.sp, height: 100.sp, fit: BoxFit.cover)
                         */
-						Image.asset('assets/images/user_icon.png', width: 100.sp, height: 100.sp)
+                        Image.asset('assets/images/user_icon.png', width: 100.sp, height: 100.sp)
+                      ) 
+                      : 
+                      LoadingAnimationWidget.threeRotatingDots(
+                        color: ProjectColors().title,
+                        size: 100.sp
                       )
                     ),
                   ),
                   Container(
-                    height: screenHeight - 300, 
-                    width: screenWidth,
+                    height: size.height * 0.5, 
+                    width: size.width,
                     child: PageView(
                       physics: NeverScrollableScrollPhysics(),
                       controller: _pageController,
                       children: <Widget>[
-                        PageOne(spaceBetween: 40),
-                        PageTwo(spaceBetween: 40),
+                        PageOne(spaceBetween: 15.h),
+                        PageTwo(spaceBetween: 15.h),
                       ]
                     )
                   ),
@@ -417,7 +451,7 @@ class RegisterState extends State<Register> {
                                     message: 'É necessário inserir uma foto de perfil.'
                                   ).showConfirmAlert();
                               	}
-							  }
+	              						  }
                             }
                           }
                         )
