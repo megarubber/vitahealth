@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vitahealth/widgets/button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vitahealth/widgets/my_appbar.dart';
 
 class ViewExercise extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _ViewExerciseState extends State<ViewExercise> {
     var size = MediaQuery.of(context).size;
     
     return Scaffold(
+      appBar: MyAppBar.textAppBar('Corrida'),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20.sp),
