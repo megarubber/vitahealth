@@ -31,3 +31,38 @@ class Button {
     );
   }
 }
+
+class ExerciseButton extends StatelessWidget {
+  final double diameter;
+  final Color color;
+  final String message;
+
+  ExerciseButton({
+    Key? key,
+    required this.diameter,
+    required this.color,
+    required this.message
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: this.diameter,
+      height: this.diameter,
+      child: OutlinedButton(
+        child: Text(this.message),
+        onPressed: null,
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(this.diameter))),
+          backgroundColor: MaterialStateProperty.all(ProjectColors().buttonBackground),
+          foregroundColor: MaterialStateProperty.all(ProjectColors().buttonText),
+          padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 14.h)),
+          textStyle: MaterialStateProperty.all(GoogleFonts.poppins(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w700,
+          ))
+        ),
+      )
+    );
+  }
+}
