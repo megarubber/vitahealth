@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vitahealth/colors.dart';
 import 'package:vitahealth/widgets/my_appbar.dart';
+import 'package:vitahealth/screens/home.dart' show Home;
 
 class ExerciseButton extends StatelessWidget {
   final IconData whichIcon;
@@ -10,6 +11,7 @@ class ExerciseButton extends StatelessWidget {
   final double width;
   final double height;
   final Color color;
+  final VoidCallback? action;
 
   ExerciseButton({
     Key? key,
@@ -17,7 +19,8 @@ class ExerciseButton extends StatelessWidget {
     required this.title,
     required this.width,
     required this.height,
-    required this.color
+    required this.color,
+    this.action = null
   }) : super(key: key);
 
   @override
@@ -32,7 +35,7 @@ class ExerciseButton extends StatelessWidget {
         children: <Widget>[
           IconButton(
             icon: Icon(this.whichIcon),
-            onPressed: null,
+            onPressed: this.action,
             iconSize: 50.sp,
             color: ProjectColors().title
           ),
@@ -59,7 +62,16 @@ class SelectExercise extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    AppBar myAppBar = MyAppBar.logoAppBar();
+    AppBar myAppBar = MyAppBar.logoAppBar(
+      action: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Home()
+          )
+        );
+      }
+    );
 
     var screenHeight = (size.height - myAppBar.preferredSize.height) - MediaQuery.of(context).padding.top;
 
@@ -74,21 +86,21 @@ class SelectExercise extends StatelessWidget {
                 title: 'Corrida',
                 width: size.width,
                 height: screenHeight / 3,
-                color: Colors.red
+                color: ProjectColors().appGreen,
               ),
               ExerciseButton(
                 whichIcon: Icons.directions_walk_rounded,
                 title: 'Caminhada',
                 width: size.width,
                 height: screenHeight / 3,
-                color: Colors.purple
+                color: ProjectColors().backgroundV2
               ),
               ExerciseButton(
                 whichIcon: Icons.vertical_align_top_rounded,
                 title: 'Pular Corda',
                 width: size.width,
                 height: screenHeight / 3,
-                color: Colors.yellow
+                color: ProjectColors().appGreen
               ),
             ]
           )
