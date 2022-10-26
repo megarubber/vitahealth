@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vitahealth/colors.dart';
 
 class MyAppBar {
-  static AppBar logoAppBar() {
+  static AppBar logoAppBar({VoidCallback? action}) {
     return AppBar(
       title: Image.asset(
         'assets/images/logo_RGB.png',
@@ -14,7 +14,7 @@ class MyAppBar {
         icon: const Icon(
           Icons.arrow_back_ios
         ),
-        onPressed: null,
+        onPressed: action,
         color: ProjectColors().title
       ),
       centerTitle: true,
@@ -24,7 +24,7 @@ class MyAppBar {
     );
   }
 
-  static AppBar textAppBar(String appBarTitle) {
+  static AppBar textAppBar(String appBarTitle, {VoidCallback? action}) {
     return AppBar(
       title: Text(
         appBarTitle,
@@ -33,7 +33,7 @@ class MyAppBar {
         icon: const Icon(
           Icons.arrow_back_ios
         ),
-        onPressed: null,
+        onPressed: action,
         color: ProjectColors().title
       ),
       centerTitle: true,
