@@ -11,6 +11,12 @@ class ProjectColors {
     final appBarBackground = Color(0xFFFFFFFF);
     final appBarForeground = Colors.black;
     
+    // Original App Color Palette
+    final appRed = Color(0xffff4438);
+    final appGreen = Color(0xff2ed9c3);
+    final appGray = Color(0xff404041);
+
     // Backgrounds
     final backgroundV1 = Color(0xffBDBDBD);
+    final backgroundV2 = Color(0xff28B8A5);
 }
