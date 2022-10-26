@@ -43,6 +43,7 @@ dependencies:
   sqflite: any
   path: any
   loading_animation_widget: any
+  google_maps_flutter: any
 
 dev_dependencies:
   flutter_test:
